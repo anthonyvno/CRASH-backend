@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @Entity
-public class Profile {
+public class ProfileEU {
     
     @Id
     @GeneratedValue

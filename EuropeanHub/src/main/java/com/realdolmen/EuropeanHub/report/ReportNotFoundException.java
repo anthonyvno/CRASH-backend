@@ -9,9 +9,9 @@ package com.realdolmen.EuropeanHub.report;
  *
  * @author SBZBN83
  */
-public class ReportException extends RuntimeException {
+public class ReportNotFoundException extends RuntimeException {
 
-	ReportException(int id) {
+	ReportNotFoundException(int id) {
 		super("Could not find report " + id);
 	}
 }

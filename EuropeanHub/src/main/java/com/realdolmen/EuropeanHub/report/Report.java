@@ -5,7 +5,9 @@
  */
 package com.realdolmen.EuropeanHub.report;
 
-import com.realdolmen.EuropeanHub.profile.Profile;
+import com.realdolmen.EuropeanHub.profile.ProfileEU;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -33,10 +35,10 @@ public class Report {
     @GeneratedValue
     private int id;
     
-    @OneToMany(cascade = {CascadeType.ALL})
-    private List<Profile> profiles;
+    @OneToMany
+    private List<ProfileEU> profiles;
     
-    private final Date dateReportReceived = new Date();
+    private final LocalDate dateReportReceived = LocalDate.of(2018, 2, 28);
     
     
     

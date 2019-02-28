@@ -5,13 +5,10 @@
  */
 package com.realdolmen.EuropeanHub.profile;
 
-/**
- *
- * @author SBZBN83
- */
-public class ProfileNotFoundException extends RuntimeException {
+import org.springframework.data.jpa.repository.JpaRepository;
 
-	ProfileNotFoundException(int id) {
-		super("Could not find profile " + id);
-	}
+
+public interface ProfileEURepository  extends JpaRepository<ProfileEU, Integer>{
+    
+       // List<Profile> findByCountry(@Param("country") String country);
 }
