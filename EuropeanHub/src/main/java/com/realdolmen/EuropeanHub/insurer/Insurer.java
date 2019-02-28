@@ -13,10 +13,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- *
- * @author SBZBN83
- */
 @Data
 @NoArgsConstructor
 @Builder

@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.realdolmen.EuropeanHub.insurer;
+package com.realdolmen.EuropeanHub.profile;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 
-public interface InsurerRepository extends JpaRepository<Insurer, Integer>{
+
+public interface ProfileRepository  extends JpaRepository<Profile, Integer>{
     
-        List<Insurer> findByCountry(@Param("country") String country);
-    
+       // List<Profile> findByCountry(@Param("country") String country);
 }

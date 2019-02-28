@@ -5,8 +5,13 @@
  */
 package com.realdolmen.EuropeanHub.report;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+/**
+ *
+ * @author SBZBN83
+ */
+public class ReportException extends RuntimeException {
 
-public interface ReportRepository extends JpaRepository<Report, Integer>{
-    
+	ReportException(int id) {
+		super("Could not find report " + id);
+	}
 }
