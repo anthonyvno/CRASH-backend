@@ -28,4 +28,9 @@ public class Insurer {
     
     private String name;
     
+    public Insurer(String name, String country){
+        this.country = country;
+        this.name = name;
+    }
+    
 }
