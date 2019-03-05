@@ -52,6 +52,7 @@ public class ProfileEUController {
 				profile.setFirstName(newProfile.getFirstName());
 				profile.setLastName(newProfile.getLastName());
                                 profile.setEmail(newProfile.getEmail());
+                                profile.setLicense(newProfile.getLicense());
 				return profileRepository.save(profile);
 			})
 			.orElseGet(() -> {

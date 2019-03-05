@@ -2,6 +2,8 @@ package com.realdolmen.EuropeanHub;
 
 import com.realdolmen.EuropeanHub.insurer.Insurer;
 import com.realdolmen.EuropeanHub.insurer.InsurerRepository;
+import com.realdolmen.EuropeanHub.profile.License;
+import com.realdolmen.EuropeanHub.profile.LicenseRepository;
 import com.realdolmen.EuropeanHub.profile.ProfileEU;
 import com.realdolmen.EuropeanHub.report.Report;
 import com.realdolmen.EuropeanHub.report.ReportRepository;
@@ -27,6 +29,9 @@ public class EuropeanHubApplication {
     @Autowired
     private ProfileEURepository profileRepository;
     
+    @Autowired
+    private LicenseRepository licenseRepository;
+    
 
     @Component
     class DataSetup implements ApplicationRunner {
@@ -38,9 +43,18 @@ public class EuropeanHubApplication {
             insurerRepository.save(Insurer.builder().name("Ethias").country("BELGIUM").build());
             insurerRepository.save(Insurer.builder().name("Ethias").country("GERMANY").build());
             
+            License l1 = License.builder().category("B").expires("05/26").licenseNumber("123465798").build();
+            License l2 = License.builder().category("B").expires("05/26").licenseNumber("123465798").build();
+            License l3 = License.builder().category("B").expires("05/26").licenseNumber("123465798").build();
+            License l4 = License.builder().category("B").expires("05/26").licenseNumber("123465798").build();
+            licenseRepository.save(l1);
+            licenseRepository.save(l2);
+            licenseRepository.save(l3);
+            licenseRepository.save(l4);
+            
             List<ProfileEU> profiles1 = new ArrayList<>();
-            ProfileEU p1 = ProfileEU.builder().firstName("Jan").lastName("Peeters").email("jan.peeters@telenet.be").build();
-            ProfileEU p2 = ProfileEU.builder().firstName("Piet").lastName("Janssens").email("piet.janssens@telenet.be").build();
+            ProfileEU p1 = ProfileEU.builder().firstName("Jan").lastName("Peeters").email("jan.peeters@telenet.be").license(l1).build();
+            ProfileEU p2 = ProfileEU.builder().firstName("Piet").lastName("Janssens").email("piet.janssens@telenet.be").license(l2).build();
 
             profileRepository.save(p1);
             profileRepository.save(p2);
@@ -48,8 +62,8 @@ public class EuropeanHubApplication {
             profiles1.add(p2);
 
             List<ProfileEU> profiles2 = new ArrayList<>();
-            ProfileEU p3 = ProfileEU.builder().firstName("John").lastName("Peterson").email("John.Peterson@hotmail.com").build();
-            ProfileEU p4 = ProfileEU.builder().firstName("Pete").lastName("Jones").email("Pete.Jones@hotmail.com").build();
+            ProfileEU p3 = ProfileEU.builder().firstName("John").lastName("Peterson").email("John.Peterson@hotmail.com").license(l3).build();
+            ProfileEU p4 = ProfileEU.builder().firstName("Pete").lastName("Jones").email("Pete.Jones@hotmail.com").license(l4).build();
 
             profileRepository.save(p3);
             profileRepository.save(p4);
