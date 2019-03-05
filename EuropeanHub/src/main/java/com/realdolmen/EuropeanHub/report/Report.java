@@ -38,7 +38,7 @@ public class Report {
     @OneToMany
     private List<ProfileEU> profiles;
     
-    private final LocalDate dateReportReceived = LocalDate.of(2018, 2, 28);
+    private final Date dateReportReceived = new Date();
     
     
     
