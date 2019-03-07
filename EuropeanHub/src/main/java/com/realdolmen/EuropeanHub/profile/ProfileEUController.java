@@ -53,6 +53,7 @@ public class ProfileEUController {
 				profile.setLastName(newProfile.getLastName());
                                 profile.setEmail(newProfile.getEmail());
                                 profile.setLicense(newProfile.getLicense());
+                                profile.setVehicles(newProfile.getVehicles());
 				return profileRepository.save(profile);
 			})
 			.orElseGet(() -> {
@@ -60,6 +61,7 @@ public class ProfileEUController {
 				return profileRepository.save(newProfile);
 			});
 	}
+        
 
 	@DeleteMapping("/profiles/{id}")
 	void deleteProfile(@PathVariable int id) {
