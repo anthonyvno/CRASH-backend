@@ -5,10 +5,9 @@
  */
 package com.realdolmen.EuropeanHub.profile;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public class ProfileEUNotFoundException extends RuntimeException {
 
-	ProfileEUNotFoundException(int id) {
-		super("Could not find profile " + id);
-	}
+public interface LicenseRepository extends JpaRepository<License, Integer>{
+    
 }

@@ -6,9 +6,10 @@
 package com.realdolmen.EuropeanHub.profile;
 
 
-public class ProfileEUNotFoundException extends RuntimeException {
-
-	ProfileEUNotFoundException(int id) {
+public class VehicleNotFoundException extends RuntimeException{
+    
+   VehicleNotFoundException(int id) {
 		super("Could not find profile " + id);
 	}
+    
 }

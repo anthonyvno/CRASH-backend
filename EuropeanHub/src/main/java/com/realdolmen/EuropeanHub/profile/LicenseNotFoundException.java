@@ -5,10 +5,14 @@
  */
 package com.realdolmen.EuropeanHub.profile;
 
-
-public class ProfileEUNotFoundException extends RuntimeException {
-
-	ProfileEUNotFoundException(int id) {
+/**
+ *
+ * @author AVOBN94
+ */
+public class LicenseNotFoundException extends RuntimeException{
+    
+    LicenseNotFoundException(int id) {
 		super("Could not find profile " + id);
 	}
+    
 }
