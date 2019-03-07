@@ -1,6 +1,7 @@
 
 package com.realdolmen.EuropeanHub.insurer;
 
+import com.realdolmen.EuropeanHub.common.NotFoundException;
 import java.util.List;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +34,7 @@ public class InsurerController {
     Insurer one(@PathVariable int id) {
 
         return insurerRepository.findById(id)
-                .orElseThrow(() -> new InsurerNotFoundException(id));
+                .orElseThrow(() -> new NotFoundException(id));
     }
 
     @PutMapping("/insurers/{id}")

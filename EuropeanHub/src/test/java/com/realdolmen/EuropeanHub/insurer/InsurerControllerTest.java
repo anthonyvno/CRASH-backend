@@ -1,6 +1,6 @@
 package com.realdolmen.EuropeanHub.insurer;
 
-import common.NotFoundException;
+import com.realdolmen.EuropeanHub.common.NotFoundException;
 import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Rule;

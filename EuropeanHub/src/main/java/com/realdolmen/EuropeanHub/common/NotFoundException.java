@@ -1,4 +1,4 @@
-package common;
+package com.realdolmen.EuropeanHub.common;
 
 
 public class NotFoundException extends RuntimeException {

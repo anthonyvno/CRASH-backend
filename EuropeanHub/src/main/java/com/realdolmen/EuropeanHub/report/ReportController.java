@@ -1,6 +1,6 @@
 package com.realdolmen.EuropeanHub.report;
 
-import common.NotFoundException;
+import com.realdolmen.EuropeanHub.common.NotFoundException;
 import java.util.List;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
