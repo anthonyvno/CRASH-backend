@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.realdolmen.EuropeanHub.profile;
 
 import java.util.List;
@@ -22,18 +17,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 public class ProfileEU {
-    
+
     @Id
     @GeneratedValue
     private int id;
-    
+
     @OneToOne
     private License license;
     @OneToMany
     private List<Vehicle> vehicles;
-    
+
     private String firstName;
     private String lastName;
     private String email;
-    
+
 }

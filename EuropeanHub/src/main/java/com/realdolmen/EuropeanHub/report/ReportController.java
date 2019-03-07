@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.realdolmen.EuropeanHub.report;
 
+import common.NotFoundException;
 import java.util.List;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,50 +12,46 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ReportController {
-    
-private final ReportRepository reportRepository ;
 
-	ReportController(ReportRepository reportRepository) {
-		this.reportRepository = reportRepository;
-	}
-    
+    private final ReportRepository reportRepository;
 
-        @GetMapping("/reports")
-	List<Report> all() {
-		return reportRepository.findAll();
-	}
+    ReportController(ReportRepository reportRepository) {
+        this.reportRepository = reportRepository;
+    }
 
-	@PostMapping("/reports")
-	Report newReport(@RequestBody Report newReport) {
-		return reportRepository.save(newReport);
-	}
+    @GetMapping("/reports")
+    List<Report> all() {
+        return reportRepository.findAll();
+    }
 
-	// Single item
+    @PostMapping("/reports")
+    Report newReport(@RequestBody Report newReport) {
+        return reportRepository.save(newReport);
+    }
 
-	@GetMapping("/reports/{id}")
-	Report one(@PathVariable int id) {
+    @GetMapping("/reports/{id}")
+    Report one(@PathVariable int id) {
+        return reportRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(id));
+    }
 
-		return reportRepository.findById(id)
-			.orElseThrow(() -> new ReportNotFoundException(id));
-	}
+    @PutMapping("/reports/{id}")
+    Report replaceReport(@RequestBody Report newReport, @PathVariable int id) {
 
-	@PutMapping("/reports/{id}")
-	Report replaceReport(@RequestBody Report newReport, @PathVariable int id) {
+        return reportRepository.findById(id)
+                .map(report -> {
+                    report.setProfiles(newReport.getProfiles());
+                    return reportRepository.save(report);
+                })
+                .orElseGet(() -> {
+                    newReport.setId(id);
+                    return reportRepository.save(newReport);
+                });
+    }
 
-		return reportRepository.findById(id)
-			.map(report -> {
-				report.setProfiles(newReport.getProfiles());
-				return reportRepository.save(report);
-			})
-			.orElseGet(() -> {
-				newReport.setId(id);
-				return reportRepository.save(newReport);
-			});
-	}
+    @DeleteMapping("/reports/{id}")
+    void deleteReport(@PathVariable int id) {
+        reportRepository.deleteById(id);
+    }
 
-	@DeleteMapping("/reports/{id}")
-	void deleteReport(@PathVariable int id) {
-		reportRepository.deleteById(id);
-	}
-    
 }

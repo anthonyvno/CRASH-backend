@@ -16,52 +16,49 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class LicenseController {
-    
-    private final LicenseRepository licenseRepository ;
 
-	LicenseController(LicenseRepository licenseRepository) {
-		this.licenseRepository = licenseRepository;
-	}
-    
+    private final LicenseRepository licenseRepository;
 
-        @GetMapping("/licenses")
-	List<License> all() {
-		return licenseRepository.findAll();
-	}
+    LicenseController(LicenseRepository licenseRepository) {
+        this.licenseRepository = licenseRepository;
+    }
 
-	@PostMapping("/licenses")
-	License newLicense(@RequestBody License newLicense) {
-		return licenseRepository.save(newLicense);
-	}
+    @GetMapping("/licenses")
+    List<License> all() {
+        return licenseRepository.findAll();
+    }
 
-	// Single item
+    @PostMapping("/licenses")
+    License newLicense(@RequestBody License newLicense) {
+        return licenseRepository.save(newLicense);
+    }
 
-	@GetMapping("/licenses/{id}")
-	License one(@PathVariable int id) {
+    @GetMapping("/licenses/{id}")
+    License one(@PathVariable int id) {
 
-		return licenseRepository.findById(id)
-			.orElseThrow(() -> new LicenseNotFoundException(id));
-	}
+        return licenseRepository.findById(id)
+                .orElseThrow(() -> new LicenseNotFoundException(id));
+    }
 
-	@PutMapping("/licenses/{id}")
-	License replaceLicense(@RequestBody License newLicense, @PathVariable int id) {
+    @PutMapping("/licenses/{id}")
+    License replaceLicense(@RequestBody License newLicense, @PathVariable int id) {
 
-		return licenseRepository.findById(id)
-			.map(license -> {
-				license.setCategory(newLicense.getCategory());
-				license.setExpires(newLicense.getExpires());
-                                license.setLicenseNumber(newLicense.getLicenseNumber());
-				return licenseRepository.save(license);
-			})
-			.orElseGet(() -> {
-				newLicense.setId(id);
-				return licenseRepository.save(newLicense);
-			});
-	}
+        return licenseRepository.findById(id)
+                .map(license -> {
+                    license.setCategory(newLicense.getCategory());
+                    license.setExpires(newLicense.getExpires());
+                    license.setLicenseNumber(newLicense.getLicenseNumber());
+                    return licenseRepository.save(license);
+                })
+                .orElseGet(() -> {
+                    newLicense.setId(id);
+                    return licenseRepository.save(newLicense);
+                });
+    }
 
-	@DeleteMapping("/licenses/{id}")
-	void deleteLicense(@PathVariable int id) {
-		licenseRepository.deleteById(id);
-	}
-    
+    @DeleteMapping("/licenses/{id}")
+    void deleteLicense(@PathVariable int id) {
+        licenseRepository.deleteById(id);
+    }
+
 }
