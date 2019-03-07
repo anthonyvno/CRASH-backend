@@ -35,6 +35,7 @@ public class InsurerRepositoryIntegrationTest {
     entityManager.persist(agInsurer);
     entityManager.flush();
     
+    
     List<Insurer> found = insurerRepository.findByCountry("Belgium");
         System.out.println("testpurp"+found.get(0).getCountry());
     assertThat(found.get(1).getCountry()).isEqualTo(agInsurer.getCountry());
