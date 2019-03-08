@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.realdolmen.EuropeanHub.profile;
 
+import com.realdolmen.EuropeanHub.common.NotFoundException;
 import java.util.List;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,9 +31,8 @@ public class LicenseController {
 
     @GetMapping("/licenses/{id}")
     License one(@PathVariable int id) {
-
         return licenseRepository.findById(id)
-                .orElseThrow(() -> new LicenseNotFoundException(id));
+                .orElseThrow(() -> new NotFoundException(id));
     }
 
     @PutMapping("/licenses/{id}")

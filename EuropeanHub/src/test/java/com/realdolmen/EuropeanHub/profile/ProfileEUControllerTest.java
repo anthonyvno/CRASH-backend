@@ -1,6 +1,9 @@
-package com.realdolmen.EuropeanHub.insurer;
+package com.realdolmen.EuropeanHub.profile;
 
 import com.realdolmen.EuropeanHub.common.NotFoundException;
+import com.realdolmen.EuropeanHub.profile.License;
+import com.realdolmen.EuropeanHub.profile.LicenseController;
+import com.realdolmen.EuropeanHub.profile.LicenseRepository;
 import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -16,33 +19,33 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class InsurerControllerTest {
+public class ProfileEUControllerTest {
 
     @Mock
-    private Insurer insurerMock;
+    private ProfileEU profileEUMock;
 
     @Mock
-    private InsurerRepository repositoryMock;
+    private ProfileEURepository repositoryMock;
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
-    private InsurerController controller;
+    private ProfileEUController controller;
 
     @Before
     public void setUp() {
-        when(repositoryMock.findById(any())).thenReturn(Optional.of(insurerMock));
+        when(repositoryMock.findById(any())).thenReturn(Optional.of(profileEUMock));
 
-        controller = new InsurerController(repositoryMock);
+        controller = new ProfileEUController(repositoryMock);
     }
 
     @Test
     public void findById() {
-        Insurer actual = controller.one(1);
+        ProfileEU actual = controller.one(1);
 
         verify(repositoryMock, times(1)).findById(1);
-        verifyZeroInteractions(insurerMock);
-        Assert.assertEquals(insurerMock, actual);
+        verifyZeroInteractions(profileEUMock);
+        Assert.assertEquals(profileEUMock, actual);
     }
 
     @Test
