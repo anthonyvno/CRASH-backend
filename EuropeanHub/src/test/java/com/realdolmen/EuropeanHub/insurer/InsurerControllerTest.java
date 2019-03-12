@@ -22,7 +22,7 @@ public class InsurerControllerTest {
     private Insurer insurerMock;
 
     @Mock
-    private InsurerRepository repositoryMock;
+    private InsurerService repositoryMock;
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
@@ -31,7 +31,7 @@ public class InsurerControllerTest {
 
     @Before
     public void setUp() {
-        when(repositoryMock.findById(any())).thenReturn(Optional.of(insurerMock));
+        when(repositoryMock.findInsurerById(any())).thenReturn(Optional.of(insurerMock));
 
         controller = new InsurerController(repositoryMock);
     }
@@ -39,15 +39,15 @@ public class InsurerControllerTest {
     @Test
     public void findById() {
         Insurer actual = controller.one(1);
-
-        verify(repositoryMock, times(1)).findById(1);
+        
+        verify(repositoryMock, times(1)).findInsurerById(1);
         verifyZeroInteractions(insurerMock);
         Assert.assertEquals(insurerMock, actual);
     }
 
     @Test
     public void findByIdEmpty() {
-        when(repositoryMock.findById(any())).thenReturn(Optional.empty());
+        when(repositoryMock.findInsurerById(any())).thenReturn(Optional.empty());
 
         expectedException.expectMessage("Could not find resource 1");
         expectedException.expect(NotFoundException.class);

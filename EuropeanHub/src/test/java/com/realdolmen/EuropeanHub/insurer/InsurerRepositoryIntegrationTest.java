@@ -22,14 +22,14 @@ public class InsurerRepositoryIntegrationTest {
     
     @Test
     public void whenFindByCountry_thenReturnInsurer(){
-    Insurer agInsurer = new Insurer("Belgium","AG Insurance");
+    Insurer agInsurer = new Insurer("AG","Belgium");
     entityManager.persist(agInsurer);
     entityManager.flush();
     
     
     List<Insurer> found = insurerRepository.findByCountry("Belgium");
-        System.out.println("testpurp"+found.get(0).getCountry());
-    assertThat(found.get(1).getCountry()).isEqualTo(agInsurer.getCountry());
+//        System.out.println("testpurp"+found.get(0).getCountry());
+    assertThat(found.get(0).getCountry()).isEqualTo(agInsurer.getCountry());
     }
 
 }

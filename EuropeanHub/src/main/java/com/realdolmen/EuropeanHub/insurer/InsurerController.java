@@ -14,46 +14,46 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class InsurerController {
 
-    private final InsurerRepository insurerRepository;
+    private final InsurerService insurerService;
 
-    InsurerController(InsurerRepository insurerRepository) {
-        this.insurerRepository = insurerRepository;
+    InsurerController(InsurerService insurerService) {
+        this.insurerService = insurerService;
     }
 
     @GetMapping("/insurers")
     List<Insurer> all() {
-        return insurerRepository.findAll();
+        return insurerService.findAll();
     }
 
     @PostMapping("/insurers")
     Insurer newInsurer(@RequestBody Insurer newInsurer) {
-        return insurerRepository.save(newInsurer);
+        return insurerService.save(newInsurer);
     }
 
     @GetMapping("/insurers/{id}")
     Insurer one(@PathVariable int id) {
 
-        return insurerRepository.findById(id)
+        return insurerService.findInsurerById(id)
                 .orElseThrow(() -> new NotFoundException(id));
     }
 
     @PutMapping("/insurers/{id}")
     Insurer replaceInsurer(@RequestBody Insurer newInsurer, @PathVariable int id) {
-        return insurerRepository.findById(id)
+        return insurerService.findInsurerById(id)
                 .map(insurer -> {
                     insurer.setName(newInsurer.getName());
                     insurer.setCountry(newInsurer.getCountry());
-                    return insurerRepository.save(insurer);
+                    return insurerService.save(insurer);
                 })
                 .orElseGet(() -> {
                     newInsurer.setId(id);
-                    return insurerRepository.save(newInsurer);
+                    return insurerService.save(newInsurer);
                 });
     }
 
     @DeleteMapping("/insurers/{id}")
     void deleteInsurer(@PathVariable int id) {
-        insurerRepository.deleteById(id);
+        insurerService.deleteById(id);
     }
 
 }
