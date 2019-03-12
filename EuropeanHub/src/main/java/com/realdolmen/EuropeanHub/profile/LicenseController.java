@@ -13,47 +13,47 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class LicenseController {
 
-    private final LicenseRepository licenseRepository;
+    private final LicenseService licenseService;
 
-    LicenseController(LicenseRepository licenseRepository) {
-        this.licenseRepository = licenseRepository;
+    LicenseController(LicenseService licenseService) {
+        this.licenseService = licenseService;
     }
 
     @GetMapping("/licenses")
     List<License> all() {
-        return licenseRepository.findAll();
+        return licenseService.findAll();
     }
 
     @PostMapping("/licenses")
     License newLicense(@RequestBody License newLicense) {
-        return licenseRepository.save(newLicense);
+        return licenseService.save(newLicense);
     }
 
     @GetMapping("/licenses/{id}")
     License one(@PathVariable int id) {
-        return licenseRepository.findById(id)
+        return licenseService.findLicenseById(id)
                 .orElseThrow(() -> new NotFoundException(id));
     }
 
     @PutMapping("/licenses/{id}")
     License replaceLicense(@RequestBody License newLicense, @PathVariable int id) {
 
-        return licenseRepository.findById(id)
+        return licenseService.findLicenseById(id)
                 .map(license -> {
                     license.setCategory(newLicense.getCategory());
                     license.setExpires(newLicense.getExpires());
                     license.setLicenseNumber(newLicense.getLicenseNumber());
-                    return licenseRepository.save(license);
+                    return licenseService.save(license);
                 })
                 .orElseGet(() -> {
                     newLicense.setId(id);
-                    return licenseRepository.save(newLicense);
+                    return licenseService.save(newLicense);
                 });
     }
 
     @DeleteMapping("/licenses/{id}")
     void deleteLicense(@PathVariable int id) {
-        licenseRepository.deleteById(id);
+        licenseService.deleteById(id);
     }
 
 }

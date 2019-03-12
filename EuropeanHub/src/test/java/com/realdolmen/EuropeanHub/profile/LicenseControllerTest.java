@@ -25,7 +25,7 @@ public class LicenseControllerTest {
     private License licenseMock;
 
     @Mock
-    private LicenseRepository repositoryMock;
+    private LicenseService serviceMock;
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
@@ -34,23 +34,23 @@ public class LicenseControllerTest {
 
     @Before
     public void setUp() {
-        when(repositoryMock.findById(any())).thenReturn(Optional.of(licenseMock));
+        when(serviceMock.findLicenseById(any())).thenReturn(Optional.of(licenseMock));
 
-        controller = new LicenseController(repositoryMock);
+        controller = new LicenseController(serviceMock);
     }
 
     @Test
     public void findById() {
         License actual = controller.one(1);
 
-        verify(repositoryMock, times(1)).findById(1);
+        verify(serviceMock, times(1)).findLicenseById(1);
         verifyZeroInteractions(licenseMock);
         Assert.assertEquals(licenseMock, actual);
     }
 
     @Test
     public void findByIdEmpty() {
-        when(repositoryMock.findById(any())).thenReturn(Optional.empty());
+        when(serviceMock.findLicenseById(any())).thenReturn(Optional.empty());
 
         expectedException.expectMessage("Could not find resource 1");
         expectedException.expect(NotFoundException.class);

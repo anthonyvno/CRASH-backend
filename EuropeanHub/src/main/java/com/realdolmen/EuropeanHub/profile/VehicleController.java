@@ -13,50 +13,50 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class VehicleController {
 
-    private final VehicleRepository vehicleRepository;
+    private final VehicleService vehicleService;
 
-    VehicleController(VehicleRepository vehicleRepository) {
-        this.vehicleRepository = vehicleRepository;
+    VehicleController(VehicleService vehicleService) {
+        this.vehicleService = vehicleService;
     }
 
     @GetMapping("/vehicles")
     List<Vehicle> all() {
-        return vehicleRepository.findAll();
+        return vehicleService.findAll();
     }
 
     @PostMapping("/vehicles")
     Vehicle newVehicle(@RequestBody Vehicle newVehicle) {
-        return vehicleRepository.save(newVehicle);
+        return vehicleService.save(newVehicle);
     }
 
     @GetMapping("/vehicles/{id}")
     Vehicle one(@PathVariable int id) {
 
-        return vehicleRepository.findById(id)
+        return vehicleService.findVehicleById(id)
                 .orElseThrow(() -> new NotFoundException(id));
     }
 
     @PutMapping("/vehicles/{id}")
     Vehicle replaceVehicle(@RequestBody Vehicle newVehicle, @PathVariable int id) {
 
-        return vehicleRepository.findById(id)
+        return vehicleService.findVehicleById(id)
                 .map(vehicle -> {
                     vehicle.setCountry(newVehicle.getCountry());
                     vehicle.setLicensePlate(newVehicle.getLicensePlate());
                     vehicle.setBrand(newVehicle.getBrand());
                     vehicle.setModel(newVehicle.getModel());
                     vehicle.setType(newVehicle.getType());
-                    return vehicleRepository.save(vehicle);
+                    return vehicleService.save(vehicle);
                 })
                 .orElseGet(() -> {
                     newVehicle.setId(id);
-                    return vehicleRepository.save(newVehicle);
+                    return vehicleService.save(newVehicle);
                 });
     }
 
     @DeleteMapping("/vehicles/{id}")
     void deleteVehicle(@PathVariable int id) {
-        vehicleRepository.deleteById(id);
+        vehicleService.deleteById(id);
     }
 
 }

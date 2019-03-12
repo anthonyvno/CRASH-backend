@@ -3,7 +3,7 @@ package com.realdolmen.EuropeanHub.profile;
 import com.realdolmen.EuropeanHub.common.NotFoundException;
 import com.realdolmen.EuropeanHub.profile.License;
 import com.realdolmen.EuropeanHub.profile.LicenseController;
-import com.realdolmen.EuropeanHub.profile.LicenseRepository;
+import com.realdolmen.EuropeanHub.profile.LicenseService;
 import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -25,7 +25,7 @@ public class VehicleControllerTest {
     private Vehicle vehicleMock;
 
     @Mock
-    private VehicleRepository repositoryMock;
+    private VehicleService serviceMock;
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
@@ -34,23 +34,23 @@ public class VehicleControllerTest {
 
     @Before
     public void setUp() {
-        when(repositoryMock.findById(any())).thenReturn(Optional.of(vehicleMock));
+        when(serviceMock.findVehicleById(any())).thenReturn(Optional.of(vehicleMock));
 
-        controller = new VehicleController(repositoryMock);
+        controller = new VehicleController(serviceMock);
     }
 
     @Test
     public void findById() {
         Vehicle actual = controller.one(1);
 
-        verify(repositoryMock, times(1)).findById(1);
+        verify(serviceMock, times(1)).findVehicleById(1);
         verifyZeroInteractions(vehicleMock);
         Assert.assertEquals(vehicleMock, actual);
     }
 
     @Test
     public void findByIdEmpty() {
-        when(repositoryMock.findById(any())).thenReturn(Optional.empty());
+        when(serviceMock.findVehicleById(any())).thenReturn(Optional.empty());
 
         expectedException.expectMessage("Could not find resource 1");
         expectedException.expect(NotFoundException.class);

@@ -3,34 +3,33 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.realdolmen.EuropeanHub.insurer;
+package com.realdolmen.EuropeanHub.profile;
 
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 @Service
-public class InsurerService {
+public class VehicleService {
     
     @Autowired
-    private InsurerRepository insurerRepository;
+    private VehicleRepository vehicleRepository;
     
-    public Optional<Insurer> findInsurerById(int id){ 
-        return insurerRepository.findById(id);
+    public Optional<Vehicle> findVehicleById(int id){ 
+        return vehicleRepository.findById(id);
     }
     
-    public List<Insurer> findAll(){
-        return insurerRepository.findAll();
+    public List<Vehicle> findAll(){
+        return vehicleRepository.findAll();
     }
     
     public void deleteById(int id){
-        insurerRepository.deleteById(id);
+        vehicleRepository.deleteById(id);
     }
     
-    public Insurer save(Insurer insurer){
-        return insurerRepository.save(insurer);
+    public Vehicle save(Vehicle vehicle){
+        return vehicleRepository.save(vehicle);
     }
     
 }

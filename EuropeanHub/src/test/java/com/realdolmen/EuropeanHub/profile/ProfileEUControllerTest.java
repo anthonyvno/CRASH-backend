@@ -3,7 +3,7 @@ package com.realdolmen.EuropeanHub.profile;
 import com.realdolmen.EuropeanHub.common.NotFoundException;
 import com.realdolmen.EuropeanHub.profile.License;
 import com.realdolmen.EuropeanHub.profile.LicenseController;
-import com.realdolmen.EuropeanHub.profile.LicenseRepository;
+import com.realdolmen.EuropeanHub.profile.LicenseService;
 import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -25,7 +25,7 @@ public class ProfileEUControllerTest {
     private ProfileEU profileEUMock;
 
     @Mock
-    private ProfileEURepository repositoryMock;
+    private ProfileEUService serviceMock;
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
@@ -34,23 +34,23 @@ public class ProfileEUControllerTest {
 
     @Before
     public void setUp() {
-        when(repositoryMock.findById(any())).thenReturn(Optional.of(profileEUMock));
+        when(serviceMock.findProfileById(any())).thenReturn(Optional.of(profileEUMock));
 
-        controller = new ProfileEUController(repositoryMock);
+        controller = new ProfileEUController(serviceMock);
     }
 
     @Test
     public void findById() {
         ProfileEU actual = controller.one(1);
 
-        verify(repositoryMock, times(1)).findById(1);
+        verify(serviceMock, times(1)).findProfileById(1);
         verifyZeroInteractions(profileEUMock);
         Assert.assertEquals(profileEUMock, actual);
     }
 
     @Test
     public void findByIdEmpty() {
-        when(repositoryMock.findById(any())).thenReturn(Optional.empty());
+        when(serviceMock.findProfileById(any())).thenReturn(Optional.empty());
 
         expectedException.expectMessage("Could not find resource 1");
         expectedException.expect(NotFoundException.class);

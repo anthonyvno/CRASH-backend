@@ -13,50 +13,50 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ProfileEUController {
 
-    private final ProfileEURepository profileRepository;
+    private final ProfileEUService profileService;
 
-    ProfileEUController(ProfileEURepository profileRepository) {
-        this.profileRepository = profileRepository;
+    ProfileEUController(ProfileEUService profileService) {
+        this.profileService = profileService;
     }
 
     @GetMapping("/profiles")
     List<ProfileEU> all() {
-        return profileRepository.findAll();
+        return profileService.findAll();
     }
 
     @PostMapping("/profiles")
     ProfileEU newProfile(@RequestBody ProfileEU newProfile) {
-        return profileRepository.save(newProfile);
+        return profileService.save(newProfile);
     }
 
     @GetMapping("/profiles/{id}")
     ProfileEU one(@PathVariable int id) {
 
-        return profileRepository.findById(id)
+        return profileService.findProfileById(id)
                 .orElseThrow(() -> new NotFoundException(id));
     }
 
     @PutMapping("/profiles/{id}")
     ProfileEU replaceProfile(@RequestBody ProfileEU newProfile, @PathVariable int id) {
 
-        return profileRepository.findById(id)
+        return profileService.findProfileById(id)
                 .map(profile -> {
                     profile.setFirstName(newProfile.getFirstName());
                     profile.setLastName(newProfile.getLastName());
                     profile.setEmail(newProfile.getEmail());
                     profile.setLicense(newProfile.getLicense());
                     profile.setVehicles(newProfile.getVehicles());
-                    return profileRepository.save(profile);
+                    return profileService.save(profile);
                 })
                 .orElseGet(() -> {
                     newProfile.setId(id);
-                    return profileRepository.save(newProfile);
+                    return profileService.save(newProfile);
                 });
     }
 
     @DeleteMapping("/profiles/{id}")
     void deleteProfile(@PathVariable int id) {
-        profileRepository.deleteById(id);
+        profileService.deleteById(id);
     }
 
 }
