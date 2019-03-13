@@ -1,5 +1,7 @@
 package com.realdolmen.EuropeanHub;
 
+import com.realdolmen.EuropeanHub.insurer.Insurance;
+import com.realdolmen.EuropeanHub.insurer.InsuranceRepository;
 import com.realdolmen.EuropeanHub.insurer.Insurer;
 import com.realdolmen.EuropeanHub.insurer.InsurerRepository;
 import com.realdolmen.EuropeanHub.profile.License;
@@ -18,12 +20,16 @@ import org.springframework.stereotype.Component;
 import com.realdolmen.EuropeanHub.profile.ProfileEURepository;
 import com.realdolmen.EuropeanHub.profile.Vehicle;
 import com.realdolmen.EuropeanHub.profile.VehicleRepository;
+import java.util.Date;
 
 @SpringBootApplication
 public class EuropeanHubApplication {
 
     @Autowired
     private InsurerRepository insurerRepository;
+    
+    @Autowired
+    private InsuranceRepository insuranceRepository;
 
     @Autowired
     private ReportRepository reportRepository;
@@ -42,7 +48,8 @@ public class EuropeanHubApplication {
 
         @Override
         public void run(ApplicationArguments args) throws Exception {
-            insurerRepository.save(Insurer.builder().name("AG Insurance").country("BELGIUM").build());
+            Insurer ins1 = Insurer.builder().name("AG Insurance").country("BELGIUM").build();
+            insurerRepository.save(ins1);
             insurerRepository.save(Insurer.builder().name("Baloise NV").country("BELGIUM").build());
             insurerRepository.save(Insurer.builder().name("Ethias").country("BELGIUM").build());
             insurerRepository.save(Insurer.builder().name("Ethias").country("GERMANY").build());
@@ -55,12 +62,23 @@ public class EuropeanHubApplication {
             licenseRepository.save(l2);
             licenseRepository.save(l3);
             licenseRepository.save(l4);
-
-            Vehicle v1 = Vehicle.builder().country("Belgie").licensePlate("age-123").brand("Mercedes").model("Benz").type("Car").build();
-            Vehicle v2 = Vehicle.builder().country("Belgie").licensePlate("age-123").brand("Mercedes").model("Benz").type("Car").build();
-            Vehicle v3 = Vehicle.builder().country("Belgie").licensePlate("age-123").brand("Mercedes").model("Benz").type("Car").build();
-            Vehicle v4 = Vehicle.builder().country("Belgie").licensePlate("age-123").brand("Mercedes").model("Benz").type("Car").build();
-            Vehicle v5 = Vehicle.builder().country("Belgie").licensePlate("age-123").brand("Mercedes").model("Benz").type("Car").build();
+            
+            Insurance i1 = Insurance.builder().emailAgency("agent@bombeke.be").expires(new Date()).greenCardNumber("893469").insuranceNumber("96392").insurer(ins1).phoneAgency("0473878009").build();
+            Insurance i2 = Insurance.builder().emailAgency("agent@bombeke.be").expires(new Date()).greenCardNumber("893469").insuranceNumber("96392").insurer(ins1).phoneAgency("0473878009").build();
+            Insurance i3 = Insurance.builder().emailAgency("agent@bombeke.be").expires(new Date()).greenCardNumber("893469").insuranceNumber("96392").insurer(ins1).phoneAgency("0473878009").build();
+            Insurance i4 = Insurance.builder().emailAgency("agent@bombeke.be").expires(new Date()).greenCardNumber("893469").insuranceNumber("96392").insurer(ins1).phoneAgency("0473878009").build();
+            Insurance i5 = Insurance.builder().emailAgency("agent@bombeke.be").expires(new Date()).greenCardNumber("893469").insuranceNumber("96392").insurer(ins1).phoneAgency("0473878009").build();
+            insuranceRepository.save(i1);
+            insuranceRepository.save(i2);
+            insuranceRepository.save(i3);
+            insuranceRepository.save(i4);
+            insuranceRepository.save(i5);
+            
+            Vehicle v1 = Vehicle.builder().country("Belgie").licensePlate("age-123").brand("Mercedes").model("Benz").type("Car").insurance(i1).build();
+            Vehicle v2 = Vehicle.builder().country("Belgie").licensePlate("age-123").brand("Mercedes").model("Benz").type("Car").insurance(i2).build();
+            Vehicle v3 = Vehicle.builder().country("Belgie").licensePlate("age-123").brand("Mercedes").model("Benz").type("Car").insurance(i3).build();
+            Vehicle v4 = Vehicle.builder().country("Belgie").licensePlate("age-123").brand("Mercedes").model("Benz").type("Car").insurance(i4).build();
+            Vehicle v5 = Vehicle.builder().country("Belgie").licensePlate("age-123").brand("Mercedes").model("Benz").type("Car").insurance(i5).build();
 
             List<Vehicle> vehicles1 = new ArrayList<>();
             List<Vehicle> vehicles2 = new ArrayList<>();
