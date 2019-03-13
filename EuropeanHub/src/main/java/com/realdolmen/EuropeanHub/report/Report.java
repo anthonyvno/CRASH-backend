@@ -30,5 +30,13 @@ public class Report {
     private List<ProfileEU> profiles;
 
     private final Date dateReportReceived = new Date();
+    
+    private Date dateCrash;
+    private String street;
+    private String streetNumber;
+    private String postalCode;
+    private String city;
+    private String country;
+    
 
 }
