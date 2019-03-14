@@ -1,5 +1,6 @@
-package com.realdolmen.EuropeanHub.insurer;
+package com.realdolmen.EuropeanHub.profile;
 
+import com.realdolmen.EuropeanHub.insurer.Insurer;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,7 +26,7 @@ public class Insurance {
     private Insurer insurer;    
     private String insuranceNumber;    
     private String greenCardNumber;   
-    private String emailAgency;
+        private String emailAgency;
     private Date expires;
     private String phoneAgency;
     

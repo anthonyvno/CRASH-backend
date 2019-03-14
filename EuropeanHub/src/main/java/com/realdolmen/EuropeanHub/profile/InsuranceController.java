@@ -1,4 +1,4 @@
-package com.realdolmen.EuropeanHub.insurer;
+package com.realdolmen.EuropeanHub.profile;
 
 import com.realdolmen.EuropeanHub.common.NotFoundException;
 import java.util.List;

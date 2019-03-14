@@ -1,7 +1,7 @@
 package com.realdolmen.EuropeanHub;
 
-import com.realdolmen.EuropeanHub.insurer.Insurance;
-import com.realdolmen.EuropeanHub.insurer.InsuranceRepository;
+import com.realdolmen.EuropeanHub.profile.Insurance;
+import com.realdolmen.EuropeanHub.profile.InsuranceRepository;
 import com.realdolmen.EuropeanHub.insurer.Insurer;
 import com.realdolmen.EuropeanHub.insurer.InsurerRepository;
 import com.realdolmen.EuropeanHub.profile.License;

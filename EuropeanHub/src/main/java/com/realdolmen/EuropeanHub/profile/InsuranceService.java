@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.realdolmen.EuropeanHub.insurer;
+package com.realdolmen.EuropeanHub.profile;
 
-import com.realdolmen.EuropeanHub.insurer.Insurance;
-import com.realdolmen.EuropeanHub.insurer.InsuranceRepository;
+import com.realdolmen.EuropeanHub.profile.Insurance;
+import com.realdolmen.EuropeanHub.profile.InsuranceRepository;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;

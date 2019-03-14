@@ -46,6 +46,7 @@ public class VehicleController {
                     vehicle.setBrand(newVehicle.getBrand());
                     vehicle.setModel(newVehicle.getModel());
                     vehicle.setType(newVehicle.getType());
+                    vehicle.setInsurance(newVehicle.getInsurance());
                     return vehicleService.save(vehicle);
                 })
                 .orElseGet(() -> {

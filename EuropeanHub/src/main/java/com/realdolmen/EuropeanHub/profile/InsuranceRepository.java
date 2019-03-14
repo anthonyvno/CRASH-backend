@@ -1,5 +1,5 @@
 
-package com.realdolmen.EuropeanHub.insurer;
+package com.realdolmen.EuropeanHub.profile;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;

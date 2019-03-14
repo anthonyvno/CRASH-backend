@@ -1,6 +1,5 @@
 package com.realdolmen.EuropeanHub.profile;
 
-import com.realdolmen.EuropeanHub.insurer.Insurance;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
