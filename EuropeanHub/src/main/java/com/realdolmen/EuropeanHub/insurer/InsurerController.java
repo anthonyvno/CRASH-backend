@@ -3,6 +3,7 @@ package com.realdolmen.EuropeanHub.insurer;
 
 import com.realdolmen.EuropeanHub.common.NotFoundException;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,14 +16,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class InsurerController {
 
     private final InsurerService insurerService;
+    private final InsurerMapper insurerMapper;
 
-    InsurerController(InsurerService insurerService) {
+    InsurerController(InsurerService insurerService,InsurerMapper insurerMapper) {
         this.insurerService = insurerService;
+        this.insurerMapper = insurerMapper;
     }
 
     @GetMapping("/insurers")
-    List<Insurer> all() {
-        return insurerService.findAll();
+    List<InsurerDTO> all() {
+        
+        return insurerService.findAll()
+                .stream()
+                .map(insurerMapper::mapInsurerToDTO)
+                    .collect(Collectors.toList());
     }
 
     @PostMapping("/insurers")
