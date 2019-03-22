@@ -1,6 +1,7 @@
 package com.realdolmen.EuropeanHub.profile;
 
 import com.realdolmen.EuropeanHub.common.NotFoundException;
+import com.realdolmen.EuropeanHub.insurer.InsurerMapper;
 import java.util.List;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,9 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class InsuranceController {
 
     private final InsuranceService insuranceService;
+        private final InsuranceMapper insuranceMapper;
 
-    InsuranceController(InsuranceService insuranceService) {
+
+    InsuranceController(InsuranceService insuranceService, InsuranceMapper insuranceMapper) {
         this.insuranceService = insuranceService;
+        this.insuranceMapper = insuranceMapper;
     }
 
     @GetMapping("/insurances")
