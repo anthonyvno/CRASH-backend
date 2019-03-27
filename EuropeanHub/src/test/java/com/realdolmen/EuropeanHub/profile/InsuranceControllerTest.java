@@ -57,7 +57,7 @@ public class InsuranceControllerTest {
         Mockito.when(insuranceMapperMock.mapInsuranceToDTO(insurance2)).thenReturn(insuranceDTO2);
         List<Insurance> expectedInsurances = Stream.of(insurance1 ,insurance2).collect(Collectors.toList());
         Mockito.when(insuranceServiceMock.findAll()).thenReturn(expectedInsurances);
-        List<InsuranceDTO> insurances = controller.all();
+        List<InsuranceDTO> insurances = insuranceController.all();
         
         Assert.assertNotNull(insurances);
         Assert.assertEquals(2, insurances.size());

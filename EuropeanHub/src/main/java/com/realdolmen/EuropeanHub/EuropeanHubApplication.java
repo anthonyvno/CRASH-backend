@@ -21,13 +21,17 @@ import com.realdolmen.EuropeanHub.profile.ProfileEURepository;
 import com.realdolmen.EuropeanHub.profile.Vehicle;
 import com.realdolmen.EuropeanHub.profile.VehicleRepository;
 import java.util.Date;
+import java.util.Properties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 @SpringBootApplication
 public class EuropeanHubApplication {
 
     @Autowired
     private InsurerRepository insurerRepository;
-    
+
     @Autowired
     private InsuranceRepository insuranceRepository;
 
@@ -42,6 +46,24 @@ public class EuropeanHubApplication {
 
     @Autowired
     private VehicleRepository vehicleRepository;
+
+    @Bean
+    public JavaMailSender getJavaMailSender() {
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
+
+        mailSender.setUsername("info.europeanhub@gmail.com");
+        mailSender.setPassword("Realdolmen1");
+
+        Properties properties = mailSender.getJavaMailProperties();
+        properties.setProperty("mail.transport.protocol", "smtp");
+        properties.setProperty("mail.smtp.auth", "true");
+        properties.setProperty("mail.smtp.starttls.enable", "true");
+        properties.setProperty("mail.debug", "true");
+        properties.setProperty("mail.test-connection", "true");
+        return mailSender;
+    }
 
     @Component
     class DataSetup implements ApplicationRunner {
@@ -62,7 +84,7 @@ public class EuropeanHubApplication {
             licenseRepository.save(l2);
             licenseRepository.save(l3);
             licenseRepository.save(l4);
-            
+
             Insurance i1 = Insurance.builder().emailAgency("agent@bombeke.be").expires(new Date()).greenCardNumber("893469").insuranceNumber("96392").insurer(ins1).phoneAgency("0473878009").build();
             Insurance i2 = Insurance.builder().emailAgency("agent@bombeke.be").expires(new Date()).greenCardNumber("893469").insuranceNumber("96392").insurer(ins1).phoneAgency("0473878009").build();
             Insurance i3 = Insurance.builder().emailAgency("agent@bombeke.be").expires(new Date()).greenCardNumber("893469").insuranceNumber("96392").insurer(ins1).phoneAgency("0473878009").build();
@@ -73,7 +95,7 @@ public class EuropeanHubApplication {
             insuranceRepository.save(i3);
             insuranceRepository.save(i4);
             insuranceRepository.save(i5);
-            
+
             Vehicle v1 = Vehicle.builder().country("Belgie").licensePlate("age-123").brand("Mercedes").model("Benz").type("Car").insurance(i1).build();
             Vehicle v2 = Vehicle.builder().country("Belgie").licensePlate("age-123").brand("Mercedes").model("Benz").type("Car").insurance(i2).build();
             Vehicle v3 = Vehicle.builder().country("Belgie").licensePlate("age-123").brand("Mercedes").model("Benz").type("Car").insurance(i3).build();

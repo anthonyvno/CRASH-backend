@@ -1,7 +1,10 @@
 package com.realdolmen.EuropeanHub.report;
 
 import com.realdolmen.EuropeanHub.common.NotFoundException;
+import com.realdolmen.EuropeanHub.profile.ProfileEU;
 import java.util.List;
+import javax.mail.MessagingException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,9 +17,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class ReportController {
 
     private final ReportRepository reportRepository;
-
-    ReportController(ReportRepository reportRepository) {
+    
+    @Autowired
+    private final EmailServiceImpl emailServiceImpl;
+    
+    //private final NotificationService notificationService;
+    
+    ReportController(ReportRepository reportRepository, EmailServiceImpl emailServiceImpl/*, NotificationService notificationService*/) {
         this.reportRepository = reportRepository;
+        this.emailServiceImpl = emailServiceImpl;
+      //  this.notificationService = notificationService;
     }
 
     @GetMapping("/reports")
@@ -25,7 +35,17 @@ public class ReportController {
     }
 
     @PostMapping("/reports")
-    Report newReport(@RequestBody Report newReport) {
+    Report newReport(@RequestBody Report newReport) throws MessagingException {
+        /*
+        try{
+            notificationService.sendNotification(newReport);
+        }catch(MailException e){
+            // catch error
+            System.out.println("Error sending mail: " + e.getMessage());
+        }*/
+        for(ProfileEU profile : newReport.getProfiles()){
+        emailServiceImpl.sendMessageWithAttachment(profile.getEmail(), "Jouw aanrijdingsformulier", String.format("Beste %s, %n%nIn bijlage kan je jouw aanrijdingsformulier van %s vinden. %n%nMet vriendelijke groeten,%nHet European Hub Team", profile.getFirstName(), newReport.getDateCrash().toString()) );
+        }
         return reportRepository.save(newReport);
     }
 
