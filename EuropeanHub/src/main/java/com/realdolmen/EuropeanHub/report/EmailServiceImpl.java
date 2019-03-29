@@ -21,7 +21,7 @@ public class EmailServiceImpl {
     public JavaMailSender emailSender;
 
    // @PostConstruct
-    public void sendMessageWithAttachment(String to, String subject, String text/*, String pathToAttachment*/) throws MessagingException {
+    public void sendMessageWithAttachment(String to, String subject, String text, String pathToAttachment) throws MessagingException {
         MimeMessage message = emailSender.createMimeMessage();
 
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -31,7 +31,7 @@ public class EmailServiceImpl {
         helper.setText(text);
 
           FileSystemResource file
-     = new FileSystemResource(new File("C:\\Users\\SBZBN83\\Downloads\\aanrijdingsformulier.pdf"));
+     = new FileSystemResource(new File(pathToAttachment));
    helper.addAttachment("aanrijdingsformulier.pdf", file);
          
         emailSender.send(message);

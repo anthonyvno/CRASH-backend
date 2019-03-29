@@ -1,7 +1,10 @@
 package com.realdolmen.EuropeanHub.report;
 
+import com.itextpdf.text.BadElementException;
+import com.itextpdf.text.DocumentException;
 import com.realdolmen.EuropeanHub.common.NotFoundException;
 import com.realdolmen.EuropeanHub.profile.ProfileEU;
+import java.io.IOException;
 import java.util.List;
 import javax.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,18 +18,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ReportController {
+    
+    
 
     private final ReportRepository reportRepository;
-    
+
     @Autowired
     private final EmailServiceImpl emailServiceImpl;
-    
+
     //private final NotificationService notificationService;
-    
     ReportController(ReportRepository reportRepository, EmailServiceImpl emailServiceImpl/*, NotificationService notificationService*/) {
         this.reportRepository = reportRepository;
         this.emailServiceImpl = emailServiceImpl;
-      //  this.notificationService = notificationService;
+
+        //  this.notificationService = notificationService;
     }
 
     @GetMapping("/reports")
@@ -35,7 +40,10 @@ public class ReportController {
     }
 
     @PostMapping("/reports")
-    Report newReport(@RequestBody Report newReport) throws MessagingException {
+    Report newReport(@RequestBody Report newReport) throws MessagingException, DocumentException, BadElementException, IOException {
+       PdfWriterManager pdfWriterManager = new PdfWriterManager(newReport);
+       String pdfReportString = pdfWriterManager.generatePDF();
+       newReport.setPdfReport(pdfReportString);
         /*
         try{
             notificationService.sendNotification(newReport);
@@ -43,8 +51,13 @@ public class ReportController {
             // catch error
             System.out.println("Error sending mail: " + e.getMessage());
         }*/
-        for(ProfileEU profile : newReport.getProfiles()){
-        emailServiceImpl.sendMessageWithAttachment(profile.getEmail(), "Jouw aanrijdingsformulier", String.format("Beste %s, %n%nIn bijlage kan je jouw aanrijdingsformulier van %s vinden. %n%nMet vriendelijke groeten,%nHet European Hub Team", profile.getFirstName(), newReport.getDateCrash().toString()) );
+        for (ProfileEU profile : newReport.getProfiles()) {
+
+            emailServiceImpl.sendMessageWithAttachment(profile.getEmail(),
+                    "Jouw aanrijdingsformulier",
+                    String.format("Beste %s, %n%nIn bijlage kan je jouw aanrijdingsformulier van %s vinden. %n%nMet vriendelijke groeten,%nHet European Hub Team",
+                            profile.getFirstName(), newReport.getDateCrash().toString()),
+                    pdfReportString);
         }
         return reportRepository.save(newReport);
     }
