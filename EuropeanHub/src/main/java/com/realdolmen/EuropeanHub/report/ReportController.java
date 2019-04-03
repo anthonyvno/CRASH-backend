@@ -7,8 +7,10 @@ import com.realdolmen.EuropeanHub.profile.ProfileEU;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Base64;
 import java.util.List;
 import javax.mail.MessagingException;
+import javax.persistence.Convert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -89,12 +91,14 @@ public class ReportController {
         reportRepository.deleteById(id);
     }
     
-    @PostMapping(path = "/reports/pdf", produces = "application/pdf")
-    byte[] createPdf() throws IOException{
+    @PostMapping(path = "/reports/pdf")
+    PdfReport createPdf() throws IOException{
         
-        byte[] bytes = Files.readAllBytes(Paths.get("C:\\Users\\AVOBN94\\Downloads\\europees-schadeformulier-nederlands-engels.pdf"));
-        return bytes;
+        byte[] bytes = Files.readAllBytes(Paths.get("C:\\Users\\SBZBN83\\Downloads\\europees-schadeformulier-nederlands-engels.pdf"));
+        String pdf = Base64.getEncoder().encodeToString(bytes);
         
+        return new PdfReport("test",pdf);
+                 
     }
             
 
