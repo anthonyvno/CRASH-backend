@@ -4,11 +4,14 @@ import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.DocumentException;
 import com.realdolmen.EuropeanHub.common.NotFoundException;
 import com.realdolmen.EuropeanHub.profile.ProfileEU;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Base64;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.mail.MessagingException;
 import javax.persistence.Convert;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,12 +95,16 @@ public class ReportController {
     }
     
     @PostMapping(path = "/reports/pdf")
-    PdfReport createPdf() throws IOException{
+    Report createPdf(@RequestBody Report newReport) throws IOException, FileNotFoundException{
         
-        byte[] bytes = Files.readAllBytes(Paths.get("C:\\Users\\SBZBN83\\Downloads\\europees-schadeformulier-nederlands-engels.pdf"));
-        String pdf = Base64.getEncoder().encodeToString(bytes);
-        
-        return new PdfReport("test",pdf);
+        byte[] bytes = null;
+        try {
+            bytes = Files.readAllBytes(Paths.get(new PdfWriterManager(newReport).generatePDF()));
+        } catch (DocumentException ex) {
+            Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        newReport.setPdfReport(Base64.getEncoder().encodeToString(bytes));
+        return newReport; 
                  
     }
             
