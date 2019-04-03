@@ -5,6 +5,8 @@ import com.itextpdf.text.DocumentException;
 import com.realdolmen.EuropeanHub.common.NotFoundException;
 import com.realdolmen.EuropeanHub.profile.ProfileEU;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import javax.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,5 +88,14 @@ public class ReportController {
     void deleteReport(@PathVariable int id) {
         reportRepository.deleteById(id);
     }
+    
+    @PostMapping(path = "/reports/pdf", produces = "application/pdf")
+    byte[] createPdf() throws IOException{
+        
+        byte[] bytes = Files.readAllBytes(Paths.get("C:\\Users\\AVOBN94\\Downloads\\europees-schadeformulier-nederlands-engels.pdf"));
+        return bytes;
+        
+    }
+            
 
 }
