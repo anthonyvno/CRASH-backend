@@ -37,6 +37,7 @@ public class Report {
     private String postalCode;
     private String city;
     private String country;
-    private String pdfReport;    
+    private String pdfReport;   
+    private boolean[][] circumstances;
 
 }
