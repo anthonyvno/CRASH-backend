@@ -13,7 +13,9 @@ import com.itextpdf.text.pdf.PdfWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PdfWriterManager {
 
@@ -377,30 +379,54 @@ public class PdfWriterManager {
                 13.57F
         );
 
-        
-
-        float[] coordY = {34.1F, 36.0F, 42.5F, 46.6F, 52.3F, 58.4F, 68.1F, 70.1F, 77.9F, 84.0F, 87.8F, 91.4F, 95.0F, 98.6F, 102.5F, 110.7F, 116.6F};
-        int counter=0;
-        for(float i : coordY){
+        float[] coordY = {3.41F, 3.60F, 4.25F, 4.66F, 5.23F, 5.84F, 6.41F, 7.01F, 7.79F, 8.40F, 8.78F, 9.14F, 9.50F, 9.86F, 10.25F, 11.07F, 11.66F};
+        for (int i = 0; i < 17; i++) {
             setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getCircumstances()[0][counter] ? "x" : "",
-                        new Font(Font.FontFamily.COURIER, 9F)
-                ),
-                52.1F,
-                i
-        );
+                    writer.getDirectContent(),
+                    new Phrase(report.getCircumstances()[0][i] ? "x" : "",
+                            new Font(Font.FontFamily.COURIER, 9F, Font.BOLD)
+                    ),
+                    5.16F,
+                    coordY[i]
+            );
             setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getCircumstances()[1][counter] ? "x" : "",
-                        new Font(Font.FontFamily.COURIER, 9F)
-                ),
-                86.6F,
-                i
-        );
-            counter++;
+                    writer.getDirectContent(),
+                    new Phrase(report.getCircumstances()[1][i] ? "x" : "",
+                            new Font(Font.FontFamily.COURIER, 9F, Font.BOLD)
+                    ),
+                    8.66F,
+                    coordY[i]
+            );
         }
-        
+        int counterA = 0;
+        int counterB = 0;
+        for (boolean bool : report.getCircumstances()[0]) {
+            if (bool == true) {
+                counterA++;
+            }
+        }
+        for (boolean bool : report.getCircumstances()[1]) {
+            if (bool == true) {
+                counterB++;
+            }
+        }
+        setPara(
+                writer.getDirectContent(),
+                new Phrase(Integer.toString(counterA),
+                        new Font(Font.FontFamily.COURIER, 9F)
+                ),
+                5.16F,
+                12.38F
+        );
+        setPara(
+                writer.getDirectContent(),
+                new Phrase(Integer.toString(counterB),
+                        new Font(Font.FontFamily.COURIER, 9F)
+                ),
+                8.66F,
+                12.38F
+        );
+
         document.close();
 
         return "C:\\Users\\SBZBN83\\Pictures\\" + report.getDateReportReceived().getTime() + "_aanrijdingsformulier.pdf";
