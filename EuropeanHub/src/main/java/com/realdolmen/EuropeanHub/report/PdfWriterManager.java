@@ -223,19 +223,15 @@ public class PdfWriterManager {
                 2.14F,
                 13.57F
         );
-        
-        
+
         /*
         **********************************************************************
         **********************************************************************
         ************************BESTUURDER B**********************************
         **********************************************************************
         **********************************************************************
-        */
-        
-        
-        
-                // VERZEKERINGSNEMER B
+         */
+        // VERZEKERINGSNEMER B
         setPara(
                 writer.getDirectContent(),
                 new Phrase(report.getProfiles().get(1).getLastName(),
@@ -380,6 +376,30 @@ public class PdfWriterManager {
                 10.82F,
                 13.57F
         );
+
+        
+
+        float[] coordY = {34.1F, 36.0F, 42.5F, 46.6F, 52.3F, 58.4F, 68.1F, 70.1F, 77.9F, 84.0F, 87.8F, 91.4F, 95.0F, 98.6F, 102.5F, 110.7F, 116.6F};
+        int counter=0;
+        for(float i : coordY){
+            setPara(
+                writer.getDirectContent(),
+                new Phrase(report.getCircumstances()[0][counter] ? "x" : "",
+                        new Font(Font.FontFamily.COURIER, 9F)
+                ),
+                52.1F,
+                i
+        );
+            setPara(
+                writer.getDirectContent(),
+                new Phrase(report.getCircumstances()[1][counter] ? "x" : "",
+                        new Font(Font.FontFamily.COURIER, 9F)
+                ),
+                86.6F,
+                i
+        );
+            counter++;
+        }
         
         document.close();
 
