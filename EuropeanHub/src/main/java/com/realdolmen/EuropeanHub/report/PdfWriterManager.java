@@ -13,6 +13,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -426,7 +427,12 @@ public class PdfWriterManager {
                 8.66F,
                 12.38F
         );
-
+        byte[] bytes = Base64.getDecoder().decode(report.getSketch());
+        Image image = Image.getInstance(bytes);
+        image.scaleAbsoluteWidth(8.23F*42.719F);
+        image.scaleAbsoluteHeight(842-(3.79F*42.775F));
+        image.setAbsolutePosition(2.86F*42.719F, 842-(17.68F*42.775F));
+        
         document.close();
 
         return "C:\\Users\\SBZBN83\\Pictures\\" + report.getDateReportReceived().getTime() + "_aanrijdingsformulier.pdf";
