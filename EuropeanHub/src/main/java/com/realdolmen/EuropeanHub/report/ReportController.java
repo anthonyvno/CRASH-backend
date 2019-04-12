@@ -6,6 +6,7 @@ import com.realdolmen.EuropeanHub.common.NotFoundException;
 import com.realdolmen.EuropeanHub.profile.ProfileEU;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.ConnectException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Base64;
@@ -25,8 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ReportController {
-    
-    
 
     private final ReportRepository reportRepository;
 
@@ -47,10 +46,10 @@ public class ReportController {
     }
 
     @PostMapping("/reports")
-    Report newReport(@RequestBody Report newReport) throws MessagingException, DocumentException, BadElementException, IOException {
-       PdfWriterManager pdfWriterManager = new PdfWriterManager(newReport);
-       String pdfReportString = pdfWriterManager.generatePDF();
-       newReport.setPdfReport(pdfReportString);
+    Report newReport(@RequestBody Report newReport) throws MessagingException,ConnectException, DocumentException, BadElementException, IOException {
+        PdfWriterManager pdfWriterManager = new PdfWriterManager(newReport);
+        String pdfReportString = pdfWriterManager.generatePDF();
+        newReport.setPdfReport(pdfReportString);
         /*
         try{
             notificationService.sendNotification(newReport);
@@ -58,55 +57,104 @@ public class ReportController {
             // catch error
             System.out.println("Error sending mail: " + e.getMessage());
         }*/
-        for (ProfileEU profile : newReport.getProfiles()) {
-
-            emailServiceImpl.sendMessageWithAttachment(profile.getEmail(),
-                    "Jouw aanrijdingsformulier",
-                    String.format("Beste %s, %n%nIn bijlage kan je jouw aanrijdingsformulier van %s vinden. %n%nMet vriendelijke groeten,%nHet European Hub Team",
-                            profile.getFirstName(), newReport.getDateCrash().toString()),
-                    pdfReportString);
+        try {
+            for (ProfileEU profile : newReport.getProfiles()) {
+                emailServiceImpl.sendMessageWithAttachment(profile.getEmail(),
+                        "Jouw aanrijdingsformulier",
+                        String.format("Beste %s, %n%nIn bijlage kan je jouw aanrijdingsformulier van %s vinden. %n%nMet vriendelijke groeten,%nHet European Hub Team",
+                                profile.getFirstName(), newReport.getDateCrash().toString()),
+                        pdfReportString);
+            }
+        } catch (Exception ex) {
+             System.out.println("CONNECTION ERROR");
         }
+
         return reportRepository.save(newReport);
     }
 
     @GetMapping("/reports/{id}")
-    Report one(@PathVariable int id) {
-        return reportRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(id));
+    Report
+            one(@PathVariable int id
+            ) {
+        return reportRepository
+                .findById(id
+                )
+                .orElseThrow(() -> new NotFoundException(id
+        ));
+
     }
 
     @PutMapping("/reports/{id}")
-    Report replaceReport(@RequestBody Report newReport, @PathVariable int id) {
+    Report
+            replaceReport(@RequestBody Report newReport,
+                     @PathVariable int id
+            ) {
 
-        return reportRepository.findById(id)
-                .map(report -> {
-                    report.setProfiles(newReport.getProfiles());
-                    return reportRepository.save(report);
+        return reportRepository
+                .findById(id
+                )
+                .map(report
+                        -> {
+                    report
+                            .setProfiles(newReport
+                                    .getProfiles());
+
+                    return reportRepository
+                            .save(report
+                            );
+
                 })
                 .orElseGet(() -> {
-                    newReport.setId(id);
-                    return reportRepository.save(newReport);
+                    newReport
+                            .setId(id
+                            );
+
+                    return reportRepository
+                            .save(newReport
+                            );
+
                 });
+
     }
 
     @DeleteMapping("/reports/{id}")
-    void deleteReport(@PathVariable int id) {
-        reportRepository.deleteById(id);
+
+    void deleteReport(@PathVariable int id
+    ) {
+        reportRepository
+                .deleteById(id
+                );
+
     }
-    
+
     @PostMapping(path = "/reports/pdf")
-    Report createPdf(@RequestBody Report newReport) throws IOException, FileNotFoundException{
-        
-        byte[] bytes = null;
+    Report
+            createPdf(@RequestBody Report newReport
+            ) throws IOException,
+             FileNotFoundException {
+
+        byte[] bytes
+                = null;
+
         try {
-            bytes = Files.readAllBytes(Paths.get(new PdfWriterManager(newReport).generatePDF()));
+            bytes
+                    = Files
+                            .readAllBytes(Paths
+                                    .get(new PdfWriterManager(newReport
+                                    ).generatePDF()));
+
         } catch (DocumentException ex) {
-            Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger
+                    .getLogger(ReportController.class
+                            .getName()).log(Level.SEVERE, null, ex);
         }
-        newReport.setPdfReport(Base64.getEncoder().encodeToString(bytes));
-        return newReport; 
-                 
+        newReport
+                .setPdfReport(Base64
+                        .getEncoder().encodeToString(bytes
+                        ));
+
+        return newReport;
+
     }
-            
 
 }
