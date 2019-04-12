@@ -39,5 +39,6 @@ public class Report {
     private String country;
     private String pdfReport;   
     private boolean[][] circumstances;
+    private String sketch;
 
 }
