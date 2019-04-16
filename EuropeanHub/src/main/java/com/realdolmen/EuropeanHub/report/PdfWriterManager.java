@@ -13,6 +13,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -427,11 +428,15 @@ public class PdfWriterManager {
                 8.66F,
                 12.38F
         );
-        byte[] bytes = Base64.getDecoder().decode(report.getSketch());
-        Image image = Image.getInstance(bytes);
-        image.scaleAbsoluteWidth(8.23F*42.719F);
-        image.scaleAbsoluteHeight(842-(3.79F*42.775F));
-        image.setAbsolutePosition(2.86F*42.719F, 842-(17.68F*42.775F));
+
+        
+        placeImage(canvas, report.getSketch(),8.27F,3.79F,2.82F,17.68F,-90F);
+        if(report.getSignatures() != null && report.getSignatures().length != 0){
+        placeImage(canvas, report.getSignatures()[0],1F,1.65F,5.19F,19.37F,0F);
+        placeImage(canvas, report.getSignatures()[1],1F,1.65F,6.98F,19.37F,0F);
+        }
+
+
         
         document.close();
 
@@ -444,5 +449,15 @@ public class PdfWriterManager {
         y = 842 - (y * 42.775F);
 
         ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, p, x, y, 0f);
+    }
+    
+    public void placeImage(PdfContentByte canvas, String imageBase64, Float height, Float width, Float x, Float y, Float rotation) throws BadElementException, IOException, DocumentException{
+        byte[] bytes = Base64.getMimeDecoder().decode(imageBase64);
+        Image image = Image.getInstance(bytes);
+        image.setRotationDegrees(rotation);
+        image.scaleAbsoluteHeight(height*42.719F);
+        image.scaleAbsoluteWidth(width*42.775F);
+        image.setAbsolutePosition(x*42.719F, 842-(y*42.775F));
+        canvas.addImage(image);
     }
 }

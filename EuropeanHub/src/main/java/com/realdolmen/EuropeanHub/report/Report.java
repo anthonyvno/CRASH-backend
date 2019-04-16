@@ -1,14 +1,15 @@
 package com.realdolmen.EuropeanHub.report;
 
 import com.realdolmen.EuropeanHub.profile.ProfileEU;
-import java.time.LocalDate;
-import java.time.Month;
+import java.lang.reflect.Array;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.CascadeType;
+import javax.persistence.Basic;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,6 +40,11 @@ public class Report {
     private String country;
     private String pdfReport;   
     private boolean[][] circumstances;
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
     private String sketch;
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    private String[] signatures;
 
 }
