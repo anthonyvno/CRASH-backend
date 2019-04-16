@@ -31,14 +31,14 @@ public class Report {
     private List<ProfileEU> profiles;
 
     private final Date dateReportReceived = new Date();
-    
+
     private Date dateCrash;
     private String street;
     private String streetNumber;
     private String postalCode;
     private String city;
     private String country;
-    private String pdfReport;   
+    private String pdfReport;
     private boolean[][] circumstances;
     @Lob
     @Basic(fetch = FetchType.LAZY)
@@ -46,5 +46,8 @@ public class Report {
     @Lob
     @Basic(fetch = FetchType.LAZY)
     private String[] signatures;
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    private String[] pictures;
 
 }

@@ -63,7 +63,7 @@ public class ReportController {
                         "Jouw aanrijdingsformulier",
                         String.format("Beste %s, %n%nIn bijlage kan je jouw aanrijdingsformulier van %s vinden. %n%nMet vriendelijke groeten,%nHet European Hub Team",
                                 profile.getFirstName(), newReport.getDateCrash().toString()),
-                        pdfReportString);
+                        pdfReportString, newReport.getPictures());
             }
         } catch (Exception ex) {
              System.out.println("CONNECTION ERROR");
