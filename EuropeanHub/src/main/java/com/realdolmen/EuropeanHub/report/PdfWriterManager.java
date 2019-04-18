@@ -41,7 +41,39 @@ public class PdfWriterManager {
 
         canvas.addImage(img);
 
-        //Aanrijdingsgegevens
+        writeCrashInformation(writer, report); // VOERTUIG A
+        writeProfiles(writer, report);
+        writeCircumstances(writer, report);
+
+        placeImage(canvas, report.getSketch(), 8.27F, 3.79F, 2.82F, 17.68F, -90F);
+        if (report.getSignatures() != null && report.getSignatures().length != 0) {
+            placeImage(canvas, report.getSignatures()[0], 1F, 1.65F, 5.19F, 19.37F, 0F);
+            placeImage(canvas, report.getSignatures()[1], 1F, 1.65F, 6.98F, 19.37F, 0F);
+        }
+
+        document.close();
+
+        return "C:\\Users\\SBZBN83\\Pictures\\" + report.getDateReportReceived().getTime() + "_aanrijdingsformulier.pdf";
+    }
+
+    public void setPara(PdfContentByte canvas, Phrase p, Float x, Float y) {
+        x = x * 42.719F;
+        y = 842 - (y * 42.775F);
+
+        ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, p, x, y, 0f);
+    }
+
+    public void placeImage(PdfContentByte canvas, String imageBase64, Float height, Float width, Float x, Float y, Float rotation) throws BadElementException, IOException, DocumentException {
+        byte[] bytes = Base64.getMimeDecoder().decode(imageBase64);
+        Image image = Image.getInstance(bytes);
+        image.setRotationDegrees(rotation);
+        image.scaleAbsoluteHeight(height * 42.719F);
+        image.scaleAbsoluteWidth(width * 42.775F);
+        image.setAbsolutePosition(x * 42.719F, 842 - (y * 42.775F));
+        canvas.addImage(image);
+    }
+
+    private void writeCrashInformation(PdfWriter writer, Report report) {
         setPara(
                 writer.getDirectContent(),
                 new Phrase(report.getDateCrash().getDate() + "/" + (report.getDateCrash().getMonth() + 1) + "/" + (report.getDateCrash().getYear() + 1900),
@@ -82,305 +114,10 @@ public class PdfWriterManager {
                 5.38F,
                 0.87F
         );
-        // VERZEKERINGSNEMER A
-        setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getProfiles().get(0).getLastName(),
-                        new Font(Font.FontFamily.COURIER, 9F)
-                ),
-                1.10F,
-                3.07F
-        );
-        setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getProfiles().get(0).getEmail(),
-                        new Font(Font.FontFamily.COURIER, 6F)
-                ),
-                1.61F,
-                4.34F
-        );
-        setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getProfiles().get(0).getFirstName(),
-                        new Font(Font.FontFamily.COURIER, 9F)
-                ),
-                1.38F,
-                3.37F
-        );
-        // VOERTUIG A
-        setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getProfiles().get(0).getVehicles().get(0).getBrand() + " " + report.getProfiles().get(0).getVehicles().get(0).getModel(),
-                        new Font(Font.FontFamily.COURIER, 6F)
-                ),
-                0.44F,
-                5.50F
-        );
-        setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getProfiles().get(0).getVehicles().get(0).getLicensePlate(),
-                        new Font(Font.FontFamily.COURIER, 9F)
-                ),
-                0.44F,
-                6.03F
-        );
-        setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getProfiles().get(0).getVehicles().get(0).getCountry(),
-                        new Font(Font.FontFamily.COURIER, 9F)
-                ),
-                0.44F,
-                6.58F
-        );
 
-        // VERZEKERING A
-        setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getProfiles().get(0).getVehicles().get(0).getInsurance().getInsurer().getName(),
-                        new Font(Font.FontFamily.COURIER, 9F)
-                ),
-                1.10F,
-                7.28F
-        );
+    }
 
-        setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getProfiles().get(0).getVehicles().get(0).getInsurance().getInsuranceNumber(),
-                        new Font(Font.FontFamily.COURIER, 9F)
-                ),
-                1.46F,
-                7.56F
-        );
-        setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getProfiles().get(0).getVehicles().get(0).getInsurance().getGreenCardNumber(),
-                        new Font(Font.FontFamily.COURIER, 9F)
-                ),
-                2.22F,
-                7.87F
-        );
-        setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getProfiles().get(0).getVehicles().get(0).getInsurance().getExpires().getDate() + "/"
-                        + (report.getProfiles().get(0).getVehicles().get(0).getInsurance().getExpires().getMonth() + 1) + "/"
-                        + (report.getProfiles().get(0).getVehicles().get(0).getInsurance().getExpires().getYear() + 1900),
-                        new Font(Font.FontFamily.COURIER, 6F)
-                ),
-                4.13F,
-                8.38F
-        );
-        setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getProfiles().get(0).getVehicles().get(0).getInsurance().getEmailAgency(),
-                        new Font(Font.FontFamily.COURIER, 6F)
-                ),
-                1.63F,
-                10F
-        );
-
-        // BESTUURDER A
-        setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getProfiles().get(0).getLastName(),
-                        new Font(Font.FontFamily.COURIER, 9F)
-                ),
-                1.23F,
-                11.16F
-        );
-        setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getProfiles().get(0).getFirstName(),
-                        new Font(Font.FontFamily.COURIER, 9F)
-                ),
-                1.42F,
-                11.47F
-        );
-        setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getProfiles().get(0).getEmail(),
-                        new Font(Font.FontFamily.COURIER, 6F)
-                ),
-                1.67F,
-                12.69F
-        );
-        setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getProfiles().get(0).getLicense().getLicenseNumber(),
-                        new Font(Font.FontFamily.COURIER, 9F)
-                ),
-                1.55F,
-                12.98F
-        );
-        setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getProfiles().get(0).getLicense().getCategory(),
-                        new Font(Font.FontFamily.COURIER, 9F)
-                ),
-                2.18F,
-                13.27F
-        );
-        setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getProfiles().get(0).getLicense().getExpires(),
-                        new Font(Font.FontFamily.COURIER, 9F)
-                ),
-                2.14F,
-                13.57F
-        );
-
-        /*
-        **********************************************************************
-        **********************************************************************
-        ************************BESTUURDER B**********************************
-        **********************************************************************
-        **********************************************************************
-         */
-        // VERZEKERINGSNEMER B
-        setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getProfiles().get(1).getLastName(),
-                        new Font(Font.FontFamily.COURIER, 9F)
-                ),
-                9.80F,
-                3.07F
-        );
-        setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getProfiles().get(1).getEmail(),
-                        new Font(Font.FontFamily.COURIER, 6F)
-                ),
-                10.35F,
-                4.34F
-        );
-        setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getProfiles().get(1).getFirstName(),
-                        new Font(Font.FontFamily.COURIER, 9F)
-                ),
-                10.12F,
-                3.37F
-        );
-        // VOERTUIG A
-        setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getProfiles().get(1).getVehicles().get(0).getBrand() + " " + report.getProfiles().get(1).getVehicles().get(0).getModel(),
-                        new Font(Font.FontFamily.COURIER, 6F)
-                ),
-                9.14F,
-                5.50F
-        );
-        setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getProfiles().get(1).getVehicles().get(0).getLicensePlate(),
-                        new Font(Font.FontFamily.COURIER, 9F)
-                ),
-                9.14F,
-                6.03F
-        );
-        setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getProfiles().get(1).getVehicles().get(0).getCountry(),
-                        new Font(Font.FontFamily.COURIER, 9F)
-                ),
-                9.10F,
-                6.58F
-        );
-
-        // VERZEKERING B
-        setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getProfiles().get(1).getVehicles().get(0).getInsurance().getInsurer().getName(),
-                        new Font(Font.FontFamily.COURIER, 9F)
-                ),
-                9.78F,
-                7.28F
-        );
-
-        setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getProfiles().get(1).getVehicles().get(0).getInsurance().getInsuranceNumber(),
-                        new Font(Font.FontFamily.COURIER, 9F)
-                ),
-                10.14F,
-                7.56F
-        );
-        setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getProfiles().get(1).getVehicles().get(0).getInsurance().getGreenCardNumber(),
-                        new Font(Font.FontFamily.COURIER, 9F)
-                ),
-                10.92F,
-                7.87F
-        );
-        setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getProfiles().get(1).getVehicles().get(0).getInsurance().getExpires().getDate() + "/"
-                        + (report.getProfiles().get(1).getVehicles().get(0).getInsurance().getExpires().getMonth() + 1) + "/"
-                        + (report.getProfiles().get(1).getVehicles().get(0).getInsurance().getExpires().getYear() + 1900),
-                        new Font(Font.FontFamily.COURIER, 6F)
-                ),
-                12.83F,
-                8.38F
-        );
-        setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getProfiles().get(1).getVehicles().get(0).getInsurance().getEmailAgency(),
-                        new Font(Font.FontFamily.COURIER, 6F)
-                ),
-                10.31F,
-                10F
-        );
-
-        // BESTUURDER B
-        setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getProfiles().get(1).getLastName(),
-                        new Font(Font.FontFamily.COURIER, 9F)
-                ),
-                9.80F,
-                11.16F
-        );
-        setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getProfiles().get(1).getFirstName(),
-                        new Font(Font.FontFamily.COURIER, 9F)
-                ),
-                10.08F,
-                11.47F
-        );
-        setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getProfiles().get(1).getEmail(),
-                        new Font(Font.FontFamily.COURIER, 6F)
-                ),
-                10.33F,
-                12.69F
-        );
-        setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getProfiles().get(1).getLicense().getLicenseNumber(),
-                        new Font(Font.FontFamily.COURIER, 9F)
-                ),
-                10.20F,
-                12.98F
-        );
-        setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getProfiles().get(1).getLicense().getCategory(),
-                        new Font(Font.FontFamily.COURIER, 9F)
-                ),
-                10.86F,
-                13.27F
-        );
-        setPara(
-                writer.getDirectContent(),
-                new Phrase(report.getProfiles().get(1).getLicense().getExpires(),
-                        new Font(Font.FontFamily.COURIER, 9F)
-                ),
-                10.82F,
-                13.57F
-        );
-
+    private void writeCircumstances(PdfWriter writer, Report report) {
         float[] coordY = {3.41F, 3.60F, 4.25F, 4.66F, 5.23F, 5.84F, 6.41F, 7.01F, 7.79F, 8.40F, 8.78F, 9.14F, 9.50F, 9.86F, 10.25F, 11.07F, 11.66F};
         for (int i = 0; i < 17; i++) {
             setPara(
@@ -428,36 +165,154 @@ public class PdfWriterManager {
                 8.66F,
                 12.38F
         );
+    }
 
-        
-        placeImage(canvas, report.getSketch(),8.27F,3.79F,2.82F,17.68F,-90F);
-        if(report.getSignatures() != null && report.getSignatures().length != 0){
-        placeImage(canvas, report.getSignatures()[0],1F,1.65F,5.19F,19.37F,0F);
-        placeImage(canvas, report.getSignatures()[1],1F,1.65F,6.98F,19.37F,0F);
+    private void writeProfiles(PdfWriter writer, Report report) {
+        for (int i = 0; i < 2; i++) {
+            // Verzekeringsnemer 
+            setPara(
+                    writer.getDirectContent(),
+                    new Phrase(report.getProfiles().get(i).getLastName(),
+                            new Font(Font.FontFamily.COURIER, 9F)
+                    ),
+                    1.10F + i * 8.7F,
+                    3.07F
+            );
+            setPara(
+                    writer.getDirectContent(),
+                    new Phrase(report.getProfiles().get(i).getEmail(),
+                            new Font(Font.FontFamily.COURIER, 6F)
+                    ),
+                    1.61F + i * 8.7F,
+                    4.34F
+            );
+            setPara(
+                    writer.getDirectContent(),
+                    new Phrase(report.getProfiles().get(1).getFirstName(),
+                            new Font(Font.FontFamily.COURIER, 9F)
+                    ),
+                    1.38F + i * 8.7F,
+                    3.37F
+            );
+            setPara(
+                    writer.getDirectContent(),
+                    new Phrase(report.getProfiles().get(i).getVehicles().get(0).getBrand() + " " + report.getProfiles().get(i).getVehicles().get(0).getModel(),
+                            new Font(Font.FontFamily.COURIER, 6F)
+                    ),
+                    0.44F + i * 8.7F,
+                    5.50F
+            );
+            setPara(
+                    writer.getDirectContent(),
+                    new Phrase(report.getProfiles().get(i).getVehicles().get(0).getLicensePlate(),
+                            new Font(Font.FontFamily.COURIER, 9F)
+                    ),
+                    0.44F + i * 8.7F,
+                    6.03F
+            );
+            setPara(
+                    writer.getDirectContent(),
+                    new Phrase(report.getProfiles().get(i).getVehicles().get(0).getCountry(),
+                            new Font(Font.FontFamily.COURIER, 9F)
+                    ),
+                    0.44F + i * 8.7F,
+                    6.58F
+            );
+
+            // VERZEKERING 
+            setPara(
+                    writer.getDirectContent(),
+                    new Phrase(report.getProfiles().get(i).getVehicles().get(0).getInsurance().getInsurer().getName(),
+                            new Font(Font.FontFamily.COURIER, 9F)
+                    ),
+                    1.10F + i * 8.7F,
+                    7.28F
+            );
+
+            setPara(
+                    writer.getDirectContent(),
+                    new Phrase(report.getProfiles().get(i).getVehicles().get(0).getInsurance().getInsuranceNumber(),
+                            new Font(Font.FontFamily.COURIER, 9F)
+                    ),
+                    1.46F + i * 8.7F,
+                    7.56F
+            );
+            setPara(
+                    writer.getDirectContent(),
+                    new Phrase(report.getProfiles().get(i).getVehicles().get(0).getInsurance().getGreenCardNumber(),
+                            new Font(Font.FontFamily.COURIER, 9F)
+                    ),
+                    2.22F + i * 8.7F,
+                    7.87F
+            );
+            setPara(
+                    writer.getDirectContent(),
+                    new Phrase(report.getProfiles().get(i).getVehicles().get(0).getInsurance().getExpires().getDate() + "/"
+                            + (report.getProfiles().get(i).getVehicles().get(0).getInsurance().getExpires().getMonth() + 1) + "/"
+                            + (report.getProfiles().get(i).getVehicles().get(0).getInsurance().getExpires().getYear() + 1900),
+                            new Font(Font.FontFamily.COURIER, 6F)
+                    ),
+                    4.13F + i * 8.7F,
+                    8.38F
+            );
+            setPara(
+                    writer.getDirectContent(),
+                    new Phrase(report.getProfiles().get(i).getVehicles().get(0).getInsurance().getEmailAgency(),
+                            new Font(Font.FontFamily.COURIER, 6F)
+                    ),
+                    1.63F + i * 8.7F,
+                    10F
+            );
+
+            // BESTUURDER 
+            setPara(
+                    writer.getDirectContent(),
+                    new Phrase(report.getProfiles().get(i).getLastName(),
+                            new Font(Font.FontFamily.COURIER, 9F)
+                    ),
+                    1.23F + i * 8.7F,
+                    11.16F
+            );
+            setPara(
+                    writer.getDirectContent(),
+                    new Phrase(report.getProfiles().get(i).getFirstName(),
+                            new Font(Font.FontFamily.COURIER, 9F)
+                    ),
+                    1.42F + i * 8.7F,
+                    11.47F
+            );
+            setPara(
+                    writer.getDirectContent(),
+                    new Phrase(report.getProfiles().get(i).getEmail(),
+                            new Font(Font.FontFamily.COURIER, 6F)
+                    ),
+                    1.67F + i * 8.7F,
+                    12.69F
+            );
+            setPara(
+                    writer.getDirectContent(),
+                    new Phrase(report.getProfiles().get(i).getLicense().getLicenseNumber(),
+                            new Font(Font.FontFamily.COURIER, 9F)
+                    ),
+                    1.55F + i * 8.7F,
+                    12.98F
+            );
+            setPara(
+                    writer.getDirectContent(),
+                    new Phrase(report.getProfiles().get(i).getLicense().getCategory(),
+                            new Font(Font.FontFamily.COURIER, 9F)
+                    ),
+                    2.18F + +i * 8.7F,
+                    13.27F
+            );
+            setPara(
+                    writer.getDirectContent(),
+                    new Phrase(report.getProfiles().get(i).getLicense().getExpires(),
+                            new Font(Font.FontFamily.COURIER, 9F)
+                    ),
+                    2.14F + i * 8.7F,
+                    13.57F
+            );
         }
-
-
-        
-        document.close();
-
-        return "C:\\Users\\SBZBN83\\Pictures\\" + report.getDateReportReceived().getTime() + "_aanrijdingsformulier.pdf";
-
-    }
-
-    public void setPara(PdfContentByte canvas, Phrase p, Float x, Float y) {
-        x = x * 42.719F;
-        y = 842 - (y * 42.775F);
-
-        ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, p, x, y, 0f);
-    }
-    
-    public void placeImage(PdfContentByte canvas, String imageBase64, Float height, Float width, Float x, Float y, Float rotation) throws BadElementException, IOException, DocumentException{
-        byte[] bytes = Base64.getMimeDecoder().decode(imageBase64);
-        Image image = Image.getInstance(bytes);
-        image.setRotationDegrees(rotation);
-        image.scaleAbsoluteHeight(height*42.719F);
-        image.scaleAbsoluteWidth(width*42.775F);
-        image.setAbsolutePosition(x*42.719F, 842-(y*42.775F));
-        canvas.addImage(image);
     }
 }
