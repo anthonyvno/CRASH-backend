@@ -26,6 +26,8 @@ public class EmailServiceImpl {
     @Autowired
     public JavaMailSender emailSender;
 
+    String username = System.getenv("USERNAME");
+
     // @PostConstruct
     public void sendMessageWithAttachment(String to, String subject, String text, String pathToAttachment, String[] pictures) throws MessagingException, ConnectException, FileNotFoundException, IOException {
         MimeMessage message = emailSender.createMimeMessage();
@@ -41,10 +43,10 @@ public class EmailServiceImpl {
         helper.addAttachment("aanrijdingsformulier.pdf", file);
         for (int i = 0; i < pictures.length; i++) {
             byte[] bytes = Base64.getMimeDecoder().decode(pictures[i]);
-            try (FileOutputStream fos = new FileOutputStream("C:\\Users\\SBZBN83\\Pictures\\picture" + i + ".jpg")) {
+            try (FileOutputStream fos = new FileOutputStream("C:\\Users\\" + username + "\\Pictures\\picture" + i + ".jpg")) {
                 fos.write(bytes);
             }
-            File filePicture = new File("C:\\Users\\SBZBN83\\Pictures\\picture" + i + ".jpg");
+            File filePicture = new File("C:\\Users\\" + username + "\\Pictures\\picture" + i + ".jpg");
             helper.addAttachment("picture" + i + ".jpg", filePicture);
         }
 

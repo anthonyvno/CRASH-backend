@@ -29,13 +29,13 @@ public class PdfWriterManager {
 
     public String generatePDF() throws FileNotFoundException, DocumentException, BadElementException, IOException {
         Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:\\Users\\SBZBN83\\Pictures\\" + report.getDateReportReceived().getTime() + "_aanrijdingsformulier.pdf"));
-
+        String username = System.getenv("USERNAME");
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:\\Users\\" + username + "\\Pictures\\" + report.getDateReportReceived().getTime() + "_aanrijdingsformulier.pdf"));
         document.open();
         PdfContentByte canvas;
         canvas = writer.getDirectContentUnder();
 
-        Image img = Image.getInstance("C:\\Users\\SBZBN83\\Pictures\\aanrijdingsform.PNG");
+        Image img = Image.getInstance("C:\\Users\\" + username + "\\Pictures\\aanrijdingsform.PNG");
         img.setAbsolutePosition(0F, 0F);
         img.scaleAbsolute(595F, 842F);
 
@@ -53,7 +53,7 @@ public class PdfWriterManager {
 
         document.close();
 
-        return "C:\\Users\\SBZBN83\\Pictures\\" + report.getDateReportReceived().getTime() + "_aanrijdingsformulier.pdf";
+        return "C:\\Users\\"+username+"\\Pictures\\" + report.getDateReportReceived().getTime() + "_aanrijdingsformulier.pdf";
     }
 
     public void setPara(PdfContentByte canvas, Phrase p, Float x, Float y) {
