@@ -34,7 +34,7 @@ public class ReportControllerTest {
     public void setUp() {
         when(repositoryMock.findById(any())).thenReturn(Optional.of(reportMock));
 
-        controller = new ReportController(repositoryMock);
+       // controller = new ReportController(repositoryMock);
     }
 
     @Test
