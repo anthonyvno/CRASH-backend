@@ -50,13 +50,8 @@ public class ReportController {
         PdfWriterManager pdfWriterManager = new PdfWriterManager(newReport);
         String pdfReportString = pdfWriterManager.generatePDF();
         newReport.setPdfReport(pdfReportString);
-        /*
-        try{
-            notificationService.sendNotification(newReport);
-        }catch(MailException e){
-            // catch error
-            System.out.println("Error sending mail: " + e.getMessage());
-        }*/
+                System.out.println("start postmethode");
+
         try {
             for (ProfileEU profile : newReport.getProfiles()) {
                 emailServiceImpl.sendMessageWithAttachment(profile.getEmail(),
@@ -68,7 +63,8 @@ public class ReportController {
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
-
+        System.out.println("Volledig postmethode doorlopen");
+        System.out.println(newReport.toString());
         return reportRepository.save(newReport);
     }
 

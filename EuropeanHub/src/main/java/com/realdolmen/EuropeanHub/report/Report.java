@@ -1,7 +1,6 @@
 package com.realdolmen.EuropeanHub.report;
 
 import com.realdolmen.EuropeanHub.profile.ProfileEU;
-import java.lang.reflect.Array;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -11,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -44,15 +44,19 @@ public class Report {
     @Basic(fetch = FetchType.LAZY)
     private String sketch;
     @Lob
+    @Transient
     @Basic(fetch = FetchType.LAZY)
     private String[] signatures;
     @Lob
+    @Transient
     @Basic(fetch = FetchType.LAZY)
     private String[] pictures;
     @Lob
+    @Transient
     @Basic(fetch = FetchType.LAZY)
     private String[] damageIndications;
     @Lob
+    @Transient
     @Basic(fetch = FetchType.LAZY)
     private String[] remarks;
 

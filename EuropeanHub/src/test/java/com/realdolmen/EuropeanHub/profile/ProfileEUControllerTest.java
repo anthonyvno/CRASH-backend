@@ -34,7 +34,7 @@ public class ProfileEUControllerTest {
 
     @Before
     public void setUp() {
-        when(serviceMock.findProfileById(any())).thenReturn(Optional.of(profileEUMock));
+     //   when(serviceMock.findProfileById(any())).thenReturn(Optional.of(profileEUMock));
 
         controller = new ProfileEUController(serviceMock);
     }
