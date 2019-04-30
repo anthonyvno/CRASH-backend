@@ -49,5 +49,11 @@ public class Report {
     @Lob
     @Basic(fetch = FetchType.LAZY)
     private String[] pictures;
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    private String[] damageIndications;
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    private String[] remarks;
 
 }

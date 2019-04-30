@@ -53,7 +53,7 @@ public class PdfWriterManager {
 
         document.close();
 
-        return "C:\\Users\\"+username+"\\Pictures\\" + report.getDateReportReceived().getTime() + "_aanrijdingsformulier.pdf";
+        return "C:\\Users\\" + username + "\\Pictures\\" + report.getDateReportReceived().getTime() + "_aanrijdingsformulier.pdf";
     }
 
     public void setPara(PdfContentByte canvas, Phrase p, Float x, Float y) {
@@ -66,9 +66,9 @@ public class PdfWriterManager {
     public void placeImage(PdfContentByte canvas, String imageBase64, Float height, Float width, Float x, Float y, Float rotation) throws BadElementException, IOException, DocumentException {
         byte[] bytes = Base64.getMimeDecoder().decode(imageBase64);
         Image image = Image.getInstance(bytes);
-        image.setRotationDegrees(rotation);
         image.scaleAbsoluteHeight(height * 42.719F);
         image.scaleAbsoluteWidth(width * 42.775F);
+        image.setRotationDegrees(rotation);
         image.setAbsolutePosition(x * 42.719F, 842 - (y * 42.775F));
         canvas.addImage(image);
     }
@@ -167,7 +167,7 @@ public class PdfWriterManager {
         );
     }
 
-    private void writeProfiles(PdfWriter writer, Report report) {
+    private void writeProfiles(PdfWriter writer, Report report) throws IOException, DocumentException, DocumentException {
         for (int i = 0; i < 2; i++) {
             // Verzekeringsnemer 
             setPara(
@@ -188,7 +188,7 @@ public class PdfWriterManager {
             );
             setPara(
                     writer.getDirectContent(),
-                    new Phrase(report.getProfiles().get(1).getFirstName(),
+                    new Phrase(report.getProfiles().get(i).getFirstName(),
                             new Font(Font.FontFamily.COURIER, 9F)
                     ),
                     1.38F + i * 8.7F,
@@ -313,6 +313,44 @@ public class PdfWriterManager {
                     2.14F + i * 8.7F,
                     13.57F
             );
+            //schade en opmerkingen
+            placeImage(writer.getDirectContent(), report.getDamageIndications()[i], 1.82F, 2.39F, 0.32F + i * 10.90F, 16.45F, 0F);
+
+            if (report.getRemarks()[i].length() > 43) {
+                String line1Remarks = report.getRemarks()[i].substring(0, 43);
+                if (line1Remarks.charAt(line1Remarks.length() - 1) != " ".charAt(0)
+                        && report.getRemarks()[i].charAt(43) != " ".charAt(0)) {
+                    line1Remarks += "-";
+                }
+                String line2Remarks = report.getRemarks()[i].substring(43);
+                setPara(
+                        writer.getDirectContent(),
+                        new Phrase(line1Remarks,
+                                new Font(Font.FontFamily.COURIER, 6F)
+                        ),
+                        0.36F + i * 9.19F,
+                        18.44F
+                );
+                setPara(
+                        writer.getDirectContent(),
+                        new Phrase(line2Remarks,
+                                new Font(Font.FontFamily.COURIER, 6F)
+                        ),
+                        0.36F + i * 9.19F,
+                        18.67F
+                );
+
+            } else {
+                setPara(
+                        writer.getDirectContent(),
+                        new Phrase(report.getRemarks()[i],
+                                new Font(Font.FontFamily.COURIER, 6F)
+                        ),
+                        0.36F + i * 9.19F,
+                        18.44F
+                );
+            }
         }
+
     }
 }

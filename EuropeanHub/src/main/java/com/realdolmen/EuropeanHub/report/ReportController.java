@@ -46,7 +46,7 @@ public class ReportController {
     }
 
     @PostMapping("/reports")
-    Report newReport(@RequestBody Report newReport) throws MessagingException,ConnectException, DocumentException, BadElementException, IOException {
+    Report newReport(@RequestBody Report newReport) throws MessagingException, ConnectException, DocumentException, BadElementException, IOException {
         PdfWriterManager pdfWriterManager = new PdfWriterManager(newReport);
         String pdfReportString = pdfWriterManager.generatePDF();
         newReport.setPdfReport(pdfReportString);
@@ -66,7 +66,7 @@ public class ReportController {
                         pdfReportString, newReport.getPictures());
             }
         } catch (Exception ex) {
-             System.out.println("CONNECTION ERROR");
+            System.out.println(ex.getMessage());
         }
 
         return reportRepository.save(newReport);
@@ -87,7 +87,7 @@ public class ReportController {
     @PutMapping("/reports/{id}")
     Report
             replaceReport(@RequestBody Report newReport,
-                     @PathVariable int id
+                    @PathVariable int id
             ) {
 
         return reportRepository
@@ -131,7 +131,7 @@ public class ReportController {
     Report
             createPdf(@RequestBody Report newReport
             ) throws IOException,
-             FileNotFoundException {
+            FileNotFoundException {
 
         byte[] bytes
                 = null;
