@@ -17,7 +17,6 @@ public class BasicAuthConfiguration extends WebSecurityConfigurerAdapter {
                 .withUser("user")
                 .password("password")
                 .roles("USER");
-
     }
     
 

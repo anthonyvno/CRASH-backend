@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.ConnectException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.List;
 import java.util.logging.Level;
@@ -50,14 +51,15 @@ public class ReportController {
         PdfWriterManager pdfWriterManager = new PdfWriterManager(newReport);
         String pdfReportString = pdfWriterManager.generatePDF();
         newReport.setPdfReport(pdfReportString);
-                System.out.println("start postmethode");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/M/yyyy hh:mm");  
+        String strDate = formatter.format(newReport.getDateCrash()); 
 
         try {
             for (ProfileEU profile : newReport.getProfiles()) {
                 emailServiceImpl.sendMessageWithAttachment(profile.getEmail(),
                         "Jouw aanrijdingsformulier",
-                        String.format("Beste %s, %n%nIn bijlage kan je jouw aanrijdingsformulier van %s vinden. %n%nMet vriendelijke groeten,%nHet European Hub Team",
-                                profile.getFirstName(), newReport.getDateCrash().toString()),
+                        String.format("Beste %s, %n%nIn bijlage kan je jouw aanrijdingsformulier van %s vinden. %n%nMet vriendelijke groeten,%nHet CRASH Team",
+                                profile.getFirstName(),strDate),
                         pdfReportString, newReport.getPictures());
             }
         } catch (Exception ex) {
