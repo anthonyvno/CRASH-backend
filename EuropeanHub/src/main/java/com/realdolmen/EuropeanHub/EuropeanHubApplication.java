@@ -22,7 +22,9 @@ import com.realdolmen.EuropeanHub.profile.Vehicle;
 import com.realdolmen.EuropeanHub.profile.VehicleRepository;
 import java.util.Date;
 import java.util.Properties;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -30,6 +32,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @SpringBootApplication
+@Import({BasicAuthConfiguration.class})
 public class EuropeanHubApplication {
 
     @Autowired
@@ -49,6 +52,7 @@ public class EuropeanHubApplication {
 
     @Autowired
     private VehicleRepository vehicleRepository;
+   
 
     @Bean
     public JavaMailSender getJavaMailSender() {

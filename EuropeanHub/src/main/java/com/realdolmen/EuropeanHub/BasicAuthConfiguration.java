@@ -1,6 +1,7 @@
 package com.realdolmen.EuropeanHub;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,8 +16,10 @@ public class BasicAuthConfiguration extends WebSecurityConfigurerAdapter {
         auth.
                 inMemoryAuthentication()
                 .withUser("user")
-                .password("password")
-                .roles("USER");
+                .password("{noop}password")
+                .roles("USER")
+                .and()
+                .withUser("admin").password("{noop}admin").roles("ADMIN");
     }
     
 
@@ -24,12 +27,17 @@ public class BasicAuthConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         
         http.csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/login").permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .httpBasic();
+          .authorizeRequests()
+          .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+          .antMatchers("/login").permitAll()
+          .antMatchers("/logouts").permitAll()
+          .antMatchers("/reports").hasAnyRole("USER")
+      //    .authenticated()
+          .and()
+          .httpBasic();
+        http.logout()
+       .clearAuthentication(true)
+       .invalidateHttpSession(true);
 
     }
 }
