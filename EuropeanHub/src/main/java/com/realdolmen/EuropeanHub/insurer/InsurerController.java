@@ -4,6 +4,7 @@ package com.realdolmen.EuropeanHub.insurer;
 import com.realdolmen.EuropeanHub.common.NotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@CrossOrigin
 public class InsurerController {
 
     private final InsurerService insurerService;

@@ -81,7 +81,7 @@ public class EuropeanHubApplication {
             insurerRepository.save(ins1);
             insurerRepository.save(Insurer.builder().name("Baloise NV").country("BELGIUM").build());
             insurerRepository.save(Insurer.builder().name("Ethias").country("BELGIUM").build());
-            insurerRepository.save(Insurer.builder().name("Ethias").country("GERMANY").build());
+            insurerRepository.save(Insurer.builder().name("EthiasDE").country("GERMANY").build());
 
             License l1 = License.builder().category("B").expires("05/26").licenseNumber("123465798").build();
             License l2 = License.builder().category("B").expires("05/26").licenseNumber("123465798").build();

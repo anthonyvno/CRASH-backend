@@ -16,6 +16,10 @@ public class InsurerService {
         return insurerRepository.findById(id);
     }
     
+    public Insurer findInsurerByName(String name){ 
+        return insurerRepository.findInsurerByName(name);
+    }
+    
     public List<Insurer> findAll(){
         return insurerRepository.findAll();
     }
