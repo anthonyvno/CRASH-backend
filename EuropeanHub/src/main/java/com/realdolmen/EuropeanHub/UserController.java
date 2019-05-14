@@ -51,7 +51,6 @@ public class UserController {
         //return () -> 
         
          String str = new String(Base64.getDecoder().decode(authToken)).split(":")[0];
-         System.out.println(str);
          return insurerService.findInsurerByName(str);
     }
 }

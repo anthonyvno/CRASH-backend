@@ -78,9 +78,11 @@ public class EuropeanHubApplication {
         @Override
         public void run(ApplicationArguments args) throws Exception {
             Insurer ins1 = Insurer.builder().name("AG Insurance").country("BELGIUM").build();
+            Insurer ins2 = Insurer.builder().name("Ethias").country("BELGIUM").build();
+
             insurerRepository.save(ins1);
             insurerRepository.save(Insurer.builder().name("Baloise NV").country("BELGIUM").build());
-            insurerRepository.save(Insurer.builder().name("Ethias").country("BELGIUM").build());
+            insurerRepository.save(ins2);
             insurerRepository.save(Insurer.builder().name("EthiasDE").country("GERMANY").build());
 
             License l1 = License.builder().category("B").expires("05/26").licenseNumber("123465798").build();
@@ -92,9 +94,9 @@ public class EuropeanHubApplication {
             licenseRepository.save(l3);
             licenseRepository.save(l4);
 
-            Insurance i1 = Insurance.builder().emailAgency("agent@bombeke.be").expires(new Date()).greenCardNumber("893469").insuranceNumber("96392").insurer(ins1).phoneAgency("0473878009").build();
-            Insurance i2 = Insurance.builder().emailAgency("agent@bombeke.be").expires(new Date()).greenCardNumber("893469").insuranceNumber("96392").insurer(ins1).phoneAgency("0473878009").build();
-            Insurance i3 = Insurance.builder().emailAgency("agent@bombeke.be").expires(new Date()).greenCardNumber("893469").insuranceNumber("96392").insurer(ins1).phoneAgency("0473878009").build();
+            Insurance i1 = Insurance.builder().emailAgency("agent@bombeke.be").expires(new Date()).greenCardNumber("893469").insuranceNumber("96392").insurer(ins2).phoneAgency("0473878009").build();
+            Insurance i2 = Insurance.builder().emailAgency("agent@bombeke.be").expires(new Date()).greenCardNumber("893469").insuranceNumber("96392").insurer(ins2).phoneAgency("0473878009").build();
+            Insurance i3 = Insurance.builder().emailAgency("agent@bombeke.be").expires(new Date()).greenCardNumber("893469").insuranceNumber("96392").insurer(ins2).phoneAgency("0473878009").build();
             Insurance i4 = Insurance.builder().emailAgency("agent@bombeke.be").expires(new Date()).greenCardNumber("893469").insuranceNumber("96392").insurer(ins1).phoneAgency("0473878009").build();
             Insurance i5 = Insurance.builder().emailAgency("agent@bombeke.be").expires(new Date()).greenCardNumber("893469").insuranceNumber("96392").insurer(ins1).phoneAgency("0473878009").build();
             insuranceRepository.save(i1);
@@ -122,7 +124,7 @@ public class EuropeanHubApplication {
             vehicles2.add(v2);
             vehicles3.add(v3);
             vehicles4.add(v4);
-            vehicles4.add(v5);
+            //vehicles4.add(v5);
 
             List<ProfileEU> profiles1 = new ArrayList<>();
             ProfileEU p1 = ProfileEU.builder().firstName("Jan").lastName("Peeters").email("jan.peeters@telenet.be").license(l1).vehicles(vehicles1).build();

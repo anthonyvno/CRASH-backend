@@ -48,20 +48,26 @@ public class ReportController {
         return reportRepository.findAll();
     }
 
+    @GetMapping("/reports/insurer/{insurerName}")
+    List<Report> byInsurerName(@PathVariable String insurerName)
+    {
+        return reportRepository.findByInsurerName(insurerName);
+    }
+
     @PostMapping("/reports")
     Report newReport(@RequestBody Report newReport) throws MessagingException, ConnectException, DocumentException, BadElementException, IOException {
         PdfWriterManager pdfWriterManager = new PdfWriterManager(newReport);
         String pdfReportString = pdfWriterManager.generatePDF();
         newReport.setPdfReport(pdfReportString);
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/M/yyyy hh:mm");  
-        String strDate = formatter.format(newReport.getDateCrash()); 
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/M/yyyy hh:mm");
+        String strDate = formatter.format(newReport.getDateCrash());
 
         try {
             for (ProfileEU profile : newReport.getProfiles()) {
                 emailServiceImpl.sendMessageWithAttachment(profile.getEmail(),
                         "Jouw aanrijdingsformulier",
                         String.format("Beste %s, %n%nIn bijlage kan je jouw aanrijdingsformulier van %s vinden. %n%nMet vriendelijke groeten,%nHet CRASH Team",
-                                profile.getFirstName(),strDate),
+                                profile.getFirstName(), strDate),
                         pdfReportString, newReport.getPictures());
             }
         } catch (Exception ex) {
