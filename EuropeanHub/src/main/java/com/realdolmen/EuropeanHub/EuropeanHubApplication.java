@@ -105,11 +105,11 @@ public class EuropeanHubApplication {
             insuranceRepository.save(i4);
             insuranceRepository.save(i5);
 
-            Vehicle v1 = Vehicle.builder().country("Belgie").licensePlate("age-123").brand("Mercedes").model("Benz").type("Car").insurance(i1).build();
-            Vehicle v2 = Vehicle.builder().country("Belgie").licensePlate("age-123").brand("Mercedes").model("Benz").type("Car").insurance(i2).build();
-            Vehicle v3 = Vehicle.builder().country("Belgie").licensePlate("age-123").brand("Mercedes").model("Benz").type("Car").insurance(i3).build();
-            Vehicle v4 = Vehicle.builder().country("Belgie").licensePlate("age-123").brand("Mercedes").model("Benz").type("Car").insurance(i4).build();
-            Vehicle v5 = Vehicle.builder().country("Belgie").licensePlate("age-123").brand("Mercedes").model("Benz").type("Car").insurance(i5).build();
+            Vehicle v1 = Vehicle.builder().country("Belgie").licensePlate("age-123").brand("Mercedes").model("Benz").type("Auto").insurance(i1).build();
+            Vehicle v2 = Vehicle.builder().country("Belgie").licensePlate("age-123").brand("Mercedes").model("Benz").type("Auto").insurance(i2).build();
+            Vehicle v3 = Vehicle.builder().country("Belgie").licensePlate("age-123").brand("Mercedes").model("Benz").type("Bus").insurance(i3).build();
+            Vehicle v4 = Vehicle.builder().country("Belgie").licensePlate("age-123").brand("Mercedes").model("Benz").type("Motorfiets").insurance(i4).build();
+            Vehicle v5 = Vehicle.builder().country("Belgie").licensePlate("age-123").brand("Mercedes").model("Benz").type("Auto").insurance(i5).build();
 
             List<Vehicle> vehicles1 = new ArrayList<>();
             List<Vehicle> vehicles2 = new ArrayList<>();

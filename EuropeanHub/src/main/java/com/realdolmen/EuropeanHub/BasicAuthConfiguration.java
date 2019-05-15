@@ -22,7 +22,15 @@ public class BasicAuthConfiguration extends WebSecurityConfigurerAdapter {
                 .withUser("Ethias")
                 .password(passwordEncoder().encode("password"))
                 .roles("USER")
-                .and().withUser("admin").password(passwordEncoder().encode("admin")).roles("ADMIN");
+                .and().withUser("admin").password(passwordEncoder().encode("admin")).roles("ADMIN")
+                .and()
+                .withUser("AG Insurance")
+                .password(passwordEncoder().encode("password"))
+                .roles("USER")
+                .and()
+                .withUser("Baloise NV")
+                .password(passwordEncoder().encode("password"))
+                .roles("USER");
     }
 
     
@@ -37,7 +45,10 @@ public class BasicAuthConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/insurers").permitAll()
+                .antMatchers(HttpMethod.POST, "/**").permitAll()
                 .antMatchers("/login").permitAll()
+                .antMatchers(HttpMethod.POST, "/insurers").authenticated()
                 .anyRequest()
                 .authenticated()
                 .and()
