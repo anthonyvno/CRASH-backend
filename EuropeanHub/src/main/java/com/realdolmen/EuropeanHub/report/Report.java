@@ -39,6 +39,8 @@ public class Report {
     private String postalCode;
     private String city;
     private String country;
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
     private String pdfReport;
     private boolean[][] circumstances;
     @Lob

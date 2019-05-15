@@ -58,7 +58,17 @@ public class ReportController {
     Report newReport(@RequestBody Report newReport) throws MessagingException, ConnectException, DocumentException, BadElementException, IOException {
         PdfWriterManager pdfWriterManager = new PdfWriterManager(newReport);
         String pdfReportString = pdfWriterManager.generatePDF();
-        newReport.setPdfReport(pdfReportString);
+        byte[] bytes
+                = null;
+
+        bytes
+                = Files
+                        .readAllBytes(Paths
+                                .get(pdfReportString));
+        newReport
+                .setPdfReport(Base64
+                        .getEncoder().encodeToString(bytes
+                        ));
         SimpleDateFormat formatter = new SimpleDateFormat("dd/M/yyyy hh:mm");
         String strDate = formatter.format(newReport.getDateCrash());
 
