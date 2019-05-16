@@ -4,6 +4,7 @@ import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.DocumentException;
 import com.realdolmen.EuropeanHub.common.NotFoundException;
 import com.realdolmen.EuropeanHub.profile.ProfileEU;
+import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.ConnectException;
@@ -17,6 +18,9 @@ import java.util.logging.Logger;
 import javax.mail.MessagingException;
 import javax.persistence.Convert;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,8 +53,7 @@ public class ReportController {
     }
 
     @GetMapping("/reports/insurer/{insurerName}")
-    List<Report> byInsurerName(@PathVariable String insurerName)
-    {
+    List<Report> byInsurerName(@PathVariable String insurerName) {
         return reportRepository.findByInsurerName(insurerName);
     }
 
@@ -171,6 +174,17 @@ public class ReportController {
 
         return newReport;
 
+    }
+
+    @GetMapping(value = "/reports/downloadexcel/{id}")
+    public ResponseEntity<InputStreamResource> excelCustomersReport(@PathVariable int id) throws IOException {
+        Report report = reportRepository.getOne(id);
+        ByteArrayInputStream in = GenerateExcelReport.reportToExcel(report);
+        // return IO ByteArray(in);
+        HttpHeaders headers = new HttpHeaders();
+        // set filename in header
+        headers.add("Content-Disposition", "attachment; filename=report.xlsx");
+        return ResponseEntity.ok().headers(headers).body(new InputStreamResource(in));
     }
 
 }
