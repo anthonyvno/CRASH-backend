@@ -11,6 +11,7 @@ import java.net.ConnectException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.logging.Level;
@@ -176,10 +177,15 @@ public class ReportController {
 
     }
 
-    @GetMapping(value = "/reports/downloadexcel/{id}")
-    public ResponseEntity<InputStreamResource> excelCustomersReport(@PathVariable int id) throws IOException {
-        Report report = reportRepository.getOne(id);
-        ByteArrayInputStream in = GenerateExcelReport.reportToExcel(report);
+    @PostMapping(value = "/reports/downloadexcel")
+    public ResponseEntity<InputStreamResource> excelCustomersReport(@RequestBody int[] idArray) throws IOException {
+        //Report report = reportRepository.getOne(id);
+        List<Report> reports = new ArrayList<>();
+        for(int id : idArray){
+            reports.add(reportRepository.getOne(id));
+        }
+        
+        ByteArrayInputStream in = new GenerateExcelReport().reportToExcel(reports);
         // return IO ByteArray(in);
         HttpHeaders headers = new HttpHeaders();
         // set filename in header
